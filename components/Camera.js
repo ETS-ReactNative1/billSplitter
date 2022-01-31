@@ -23,7 +23,7 @@ export default function App() {
 	return (
 		<View flex={1}>
 			<Camera style={styles.camera} type={type}>
-				<Container flex={1} backgroundColor="transparent" flexDirection="row" margin="5">
+				<Container flex={1} backgroundColor="transparent" flexDirection={"row"} mb="10" ml="5">
 					<Pressable
 						flex={0.1}
 						alignSelf="flex-end"
@@ -34,6 +34,16 @@ export default function App() {
 					>
 						<Text color="white" fontSize="lg">
 							Flip
+						</Text>
+					</Pressable>
+					<Pressable
+						flex={0.9}
+						alignSelf="flex-end"
+						alignItems="center"
+						onPress={() => console.log("👋 take pic ------>")}
+					>
+						<Text color="white" fontSize="lg">
+							Snap
 						</Text>
 					</Pressable>
 				</Container>
