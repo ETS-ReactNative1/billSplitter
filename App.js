@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 
 import Home from "./components/Home";
 import Color from "./components/Color";
-
+import CreateBill from "./components/CreateBill";
 //stack navigation
 const Stack = createStackNavigator();
 
@@ -16,6 +16,7 @@ export default function App() {
 				<Stack.Navigator>
 					<Stack.Screen name="Home" component={Home} options={{ header: () => null }} />
 					<Stack.Screen name="Color" component={Color} />
+					<Stack.Screen name="CreateBill" component={CreateBill} />
 				</Stack.Navigator>
 			</NavigationContainer>
 			<StatusBar style="auto" />

@@ -8,7 +8,7 @@ export default function Home({ navigation }) {
 			<Button variant="link" size="lg" onPress={() => navigation.navigate("Color")}>
 				Color
 			</Button>
-			<Button variant="link" size="lg" onPress={() => Alert.alert("adding bill")}>
+			<Button variant="link" size="lg" onPress={() => navigation.navigate("CreateBill")}>
 				Add Bill
 			</Button>
 		</Box>
