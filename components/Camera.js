@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
-import { View, Container, Text, Pressable } from "native-base";
+import { View, Container, Text, Pressable, Image } from "native-base";
 
-export default function App() {
+export default function App({ navigation }) {
 	const [hasPermission, setHasPermission] = useState(null);
 	const [type, setType] = useState(Camera.Constants.Type.back);
+	const [camera, setCamera] = useState(null);
+	const [image, setImage] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -13,6 +15,16 @@ export default function App() {
 			setHasPermission(status === "granted");
 		})();
 	}, []);
+
+	const capture = async () => {
+		if (camera) {
+			const data = await camera.takePictureAsync(null);
+			setImage(data.uri);
+			//The image uri is in the image state after capture
+			//You can pass the image to a new view by using navigation
+			console.log("👋  ------>", image); //--> prints the captured image uri
+		}
+	};
 
 	if (hasPermission === null) {
 		return <View />;
@@ -22,7 +34,7 @@ export default function App() {
 	}
 	return (
 		<View flex={1}>
-			<Camera style={styles.camera} type={type}>
+			<Camera style={styles.camera} type={type} ref={(ref) => setCamera(ref)}>
 				<Container flex={1} backgroundColor="transparent" flexDirection={"row"} mb="10" ml="5">
 					<Pressable
 						flex={0.1}
@@ -36,14 +48,9 @@ export default function App() {
 							Flip
 						</Text>
 					</Pressable>
-					<Pressable
-						flex={0.9}
-						alignSelf="flex-end"
-						alignItems="center"
-						onPress={() => console.log("👋 take pic ------>")}
-					>
+					<Pressable flex={0.9} alignSelf="flex-end" alignItems="center" onPress={() => capture()}>
 						<Text color="white" fontSize="lg">
-							Snap
+							Capture
 						</Text>
 					</Pressable>
 				</Container>
