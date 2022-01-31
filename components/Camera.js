@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import { View, Container, Text, Pressable, Image } from "native-base";
 
@@ -32,9 +31,15 @@ export default function App({ navigation }) {
 	if (hasPermission === false) {
 		return <Text>No access to camera</Text>;
 	}
+
+	//this shows the image after capture delete if not needed
+	if (image) {
+		return <Image source={{ uri: image }} flex={1} alt="receipt" />;
+	}
+
 	return (
 		<View flex={1}>
-			<Camera style={styles.camera} type={type} ref={(ref) => setCamera(ref)}>
+			<Camera style={{ flex: 1 }} type={type} ref={(ref) => setCamera(ref)}>
 				<Container flex={1} backgroundColor="transparent" flexDirection={"row"} mb="10" ml="5">
 					<Pressable
 						flex={0.1}
@@ -58,9 +63,3 @@ export default function App({ navigation }) {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	camera: {
-		flex: 1,
-	},
-});
