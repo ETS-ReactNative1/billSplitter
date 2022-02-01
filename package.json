@@ -18,6 +18,7 @@
     "expo-camera": "~12.1.0",
     "expo-status-bar": "~1.2.0",
     "native-base": "^3.3.4",
+    "ocr-space-api-wrapper": "^2.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
