@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import { View, Container, Text, Pressable, Image } from 'native-base';
+//import testImage from '../assets/ocr-test-image.jpeg';
+const axios = require('axios');
 
 export default function App({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -17,20 +19,68 @@ export default function App({ navigation }) {
 
   const capture = async () => {
     if (camera) {
-      const data = await camera.takePictureAsync(null);
+      const data = await camera.takePictureAsync({ base64: true });
       console.log('This is data in the Camera Component', data);
-      setImage(data.uri);
+      setImage(data.base64);
+
       console.log(
         'This is Image in the camera Component, after setting Image',
         image,
       );
-      //The image uri is in the image state after capture
-      //You can pass the image to a new view by using navigation
+      // const headers = {
+      //   apiKey: 'K81848835288957',
+      // };
+      // const body = {
+      //   language: 'eng',
+      //   isOverlayRequired: false,
+      //   url: 'http://dl.a9t9.com/ocrbenchmark/eng.png',
+      //   iscreatesearchlabelpdf: false,
+      //   issearchablepdfhidetextlayer: false,
+      // };
 
-      //1 pass image to OCR Component via navigation
-      //2 do something and verify we are getting that image
+      axios
+        .post('https://api.ocr.space/parse/image', body, {
+          headers: headers,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      const options = {
+        method: 'POST',
+        url: 'https://api.ocr.space/parse/image',
+        body: {
+          language: 'eng',
+          isOverlayRequired: false,
+          url: 'http://dl.a9t9.com/ocrbenchmark/eng.png',
+          iscreatesearchlabelpdf: false,
+          issearchablepdfhidetextlayer: false,
+          //apiKey: 'K81848835288957',
+        },
+        headers: {
+          apiKey: 'K81848835288957',
+        },
+      };
 
-      navigation.navigate('OCRComponent', image);
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      /*
+       STEP 1 : have image = base64 string
+       STEP 2 : make axios call to api route
+       STEP 3 : Receive text from image conversion
+       STEP 4 : Pass that text to OCR COmponent for the user to view!
+       */
+
+      navigation.navigate('OCRComponent');
     }
   };
 
