@@ -22,20 +22,16 @@ import {
 const BillScreen = () => {
   const instState = [
     {
-      title: "Code",
-      isCompleted: true,
+      title: "Cheeseburger",
+      quantity: 6,
     },
     {
-      title: "Meeting with team at 9",
-      isCompleted: true,
+      title: "Beers",
+      quantity: 6,
     },
     {
-      title: "Check Emails",
-      isCompleted: false,
-    },
-    {
-      title: "Write an article",
-      isCompleted: false,
+      title: "Fries",
+      quantity: 6,
     },
   ];
   const [list, setList] = React.useState(instState);
@@ -46,9 +42,33 @@ const BillScreen = () => {
       ...list,
       {
         title: title,
-        isCompleted: false,
+        quantity: 1,
       },
     ]);
+  };
+
+  const handleSubtract = (index) => {
+    let temp = [...list];
+    let counter = 0;
+    for (let item of temp) {
+      if (index === counter && item.quantity >= 2) {
+        item.quantity--;
+      }
+      counter++;
+    }
+    setList(temp);
+  };
+
+  const handleAdd = (index) => {
+    let temp = [...list];
+    let counter = 0;
+    for (let item of temp) {
+      if (index === counter) {
+        item.quantity++;
+      }
+      counter++;
+    }
+    setList(temp);
   };
 
   const handleDelete = (index) => {
@@ -68,7 +88,7 @@ const BillScreen = () => {
       <Box maxW="350" w="100%">
         <Center w="100%">
           <Heading mb="10" size="xl">
-            Your Current Bills
+            Your Current Bill
           </Heading>
         </Center>
         <VStack space={4}>
@@ -94,37 +114,25 @@ const BillScreen = () => {
           </HStack>
           <VStack space={2}>
             {list.map((item, itemI) => (
-              <HStack
-                w="100%"
-                justifyContent="space-between"
-                alignItems="center"
-                key={item.title + itemI.toString()}
-              >
-                {/* <Checkbox
-                  isChecked={item.isCompleted}
-                  onChange={() => handleStatusChange(itemI)}
-                  value={item.title}
-                > */}
-                <Text
-                  mx="2"
-                  strikeThrough={item.isCompleted}
-                  _light={{
-                    color: item.isCompleted ? "gray.400" : "coolGray.800",
-                  }}
-                  _dark={{
-                    color: item.isCompleted ? "gray.400" : "coolGray.50",
-                  }}
-                >
-                  {item.title}
-                </Text>
-                {/* </Checkbox> */}
-
-                <HStack
-                  w="50%"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                  key={item.title + itemI.toString()}
-                >
+              <HStack w="100%" justifyContent="center">
+                <HStack w="50%" justifyContent="flex-start">
+                  <IconButton
+                    size="sm"
+                    colorScheme="trueGray"
+                    icon={
+                      <Icon
+                        as={FontAwesome}
+                        name="trash-o"
+                        size="xs"
+                        color="trueGray.400"
+                      />
+                    }
+                    onPress={() => handleDelete(itemI)}
+                  />
+                  <Text mx="2">{item.title}</Text>
+                </HStack>
+                <HStack w="50%" justifyContent="flex-end" space={2}>
+                  <Text style={{ fontWeight: "bold" }}>{item.quantity}</Text>
                   <IconButton
                     size="sm"
                     colorScheme="trueGray"
@@ -136,7 +144,7 @@ const BillScreen = () => {
                         color="trueGray.400"
                       />
                     }
-                    onPress={() => handleDelete(itemI)}
+                    onPress={() => handleSubtract(itemI)}
                   />
 
                   <IconButton
@@ -150,21 +158,7 @@ const BillScreen = () => {
                         color="trueGray.400"
                       />
                     }
-                    onPress={() => handleDelete(itemI)}
-                  />
-
-                  <IconButton
-                    size="sm"
-                    colorScheme="trueGray"
-                    icon={
-                      <Icon
-                        as={FontAwesome}
-                        name="trash-o"
-                        size="xs"
-                        color="trueGray.400"
-                      />
-                    }
-                    onPress={() => handleDelete(itemI)}
+                    onPress={() => handleAdd(itemI)}
                   />
                 </HStack>
               </HStack>
