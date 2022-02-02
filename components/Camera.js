@@ -25,27 +25,25 @@ export default function App({ navigation }) {
 
 			// console.log("This is Image in the camera Component, after setting Image", image);
 			const formData = new FormData();
-
-			const headers = {
-				headers: {
-					Accept: "application/json",
-					"Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-					apiKey: "K81848835288957",
-					// ...formData.getHeaders(),
-				},
-			};
-			const body = {
-				language: "eng",
-				isOverlayRequired: false,
-				url: "http://dl.a9t9.com/ocrbenchmark/eng.png",
-				// filetype: "png",
-			};
-
 			formData.append("language", "eng");
 			formData.append("isOverlayRequired", "false");
 			formData.append("url", "http://dl.a9t9.com/ocrbenchmark/eng.png");
 
-			console.log("👋 form data ------>", formData);
+			const headers = {
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "multipart/form-data",
+					apiKey: "K81848835288957",
+					// ...formData.getHeaders(),
+				},
+			};
+
+			// const body = {
+			// 	language: "eng",
+			// 	isOverlayRequired: false,
+			// 	url: "http://dl.a9t9.com/ocrbenchmark/eng.png",
+			// 	// filetype: "png",
+			// };
 
 			const res = await axios.post("https://api.ocr.space/parse/image", formData, headers);
 
