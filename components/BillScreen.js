@@ -20,7 +20,7 @@ import {
 } from "@expo/vector-icons";
 
 const BillScreen = () => {
-  const instState = [
+  let instState = [
     {
       title: "Cheeseburger",
       quantity: 6,
@@ -34,6 +34,7 @@ const BillScreen = () => {
       quantity: 6,
     },
   ];
+
   const [list, setList] = React.useState(instState);
   const [inputValue, setInputValue] = React.useState("");
 
