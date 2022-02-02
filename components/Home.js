@@ -19,6 +19,14 @@ export default function Home({ navigation }) {
       >
         Add Bill
       </Button>
+
+      <Button
+        variant="link"
+        size="lg"
+        onPress={() => navigation.navigate("FinalizedBill")}
+      >
+        View Finalized Bill Example
+      </Button>
     </Box>
   );
 }
