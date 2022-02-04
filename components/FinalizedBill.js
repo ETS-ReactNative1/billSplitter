@@ -23,7 +23,7 @@ import {
 export default function FinalizedBill ({navigation}) {
 
   // dummy data for what should be in state when this component loads.
-  const passedList = [
+  const dummyList = [
     {
       title: "Cheeseburger",
       price: 1000,
@@ -62,32 +62,33 @@ export default function FinalizedBill ({navigation}) {
     }
   ];
 
+  // parses through inputted item list and turns it into an object
+  // containing:
+  // finalBill.payer: string of payer's name.
+  //, finalBill.billItems: array of objects (title, price, assignee, payer)
+  // finalBill.totals: array of objects (assignee, total, payer(T/F)
   const finalizeBill = (list) => {
     let finalBill = {};
-    list.forEach(item => {
+    let party = []
+    let totals = []
+
+    //copy over bill items to the final bill.
+    const billItems = list.map(item => {
+      //identify the payer.
       if (item.payer === true){
         finalBill.payer = item.assignee
       }
-    })
+      //build the party of unique members.
+      if(!party.includes(item.assignee)){
+        party.push(item.assignee)
+      }
 
-    //copy the list of menu items as store as .billItems
-    const billItems = list.map(item => {
-      console.log('bill item:', item);
       return item
     })
     finalBill.billItems = billItems;
-
-    // get all unique members in the party and set the totals to $0.
-    let party = []
-    list.forEach(billItem => {
-      if(!party.includes(billItem.assignee)){
-        party.push(billItem.assignee)
-      }
-    })
     finalBill.party = party;
 
-    //tabulate sub totals
-    let totals = []
+    //add up per-person sub totals
     party.forEach(person => {
       let personTotal = 0
       list.forEach(item => {
@@ -113,17 +114,14 @@ export default function FinalizedBill ({navigation}) {
     finalBill.totals.forEach(personTotal => {
       personTotal.total = personTotal.total * 1.0875 * 1.15;
     })
-
-
+    console.log("Final Bill: ", finalBill);
     return finalBill;
   }
 
-  const finalBill = finalizeBill(passedList)
 
-  console.log('final bill ', finalBill)
+  const finalBill = finalizeBill(dummyList)
 
   const [bill, setBil] = React.useState(finalBill);
-
 
   return (
     <Center w="100%">
@@ -138,10 +136,8 @@ export default function FinalizedBill ({navigation}) {
           <HStack key={index} w="100%" justifyContent="center">
             <HStack w="50%" justifyContent="flex-start">
              <Text mx="2">{item.title}</Text>
-             {/* <Text mx="2">{item.price}</Text> */}
             </HStack>
             <HStack w="50%" justifyContent="center">
-             {/* <Text mx="2">{item.title}</Text> */}
              <Text mx="2">{item.price}</Text>
             </HStack>
             <HStack w="50%" justifyContent="flex-end" space={2}>
@@ -150,16 +146,13 @@ export default function FinalizedBill ({navigation}) {
           </HStack>
           ))}
         </VStack>
-
         <Center w="100%">
           <Heading mb="10" size="xl">
             Totals By Person
           </Heading>
         </Center>
-
         <VStack space={2}>
           {bill.totals.map((total, index) => (
-            // hacky thing to avoid reusing index, should prob refactor this
           <HStack key={index} w="100%" justifyContent="center">
             <HStack w="50%" justifyContent="flex-start">
              <Text mx="2">{total.assignee}</Text>
@@ -173,7 +166,6 @@ export default function FinalizedBill ({navigation}) {
           </HStack>
           ))}
         </VStack>
-
       </Box>
     </Center>
   );
