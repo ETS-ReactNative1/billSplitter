@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import { View, Container, Text, Pressable, Image } from "native-base";
+import { View, Container, Text, Pressable, Image, Flex } from "native-base";
+import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function App({ navigation }) {
 	const [hasPermission, setHasPermission] = useState(null);
@@ -22,7 +24,7 @@ export default function App({ navigation }) {
 			let body = JSON.stringify({
 				requests: [
 					{
-						features: [{ type: "TEXT_DETECTION" }, { type: "DOCUMENT_TEXT_DETECTION" }],
+						features: [{ type: "TEXT_DETECTION" }],
 						image: {
 							content: capturedImage,
 						},
@@ -66,25 +68,33 @@ export default function App({ navigation }) {
 	return (
 		<View flex={1}>
 			<Camera style={{ flex: 1 }} type={type} ref={(ref) => setCamera(ref)}>
-				<Container flex={1} backgroundColor="transparent" flexDirection={"row"} mb="10" ml="5">
+				<Flex
+					alignItems="flex-end"
+					flex={1}
+					justifyContent={"space-around"}
+					backgroundColor="transparent"
+					flexDirection={"row"}
+					mb="10"
+				>
+					<Pressable alignItems="center" onPress={() => capture()}>
+						<FontAwesome name="photo" size={32} color="white" />
+					</Pressable>
+					<Pressable alignItems="center" onPress={() => capture()}>
+						<Text color="white" fontSize="xl">
+							Capture
+						</Text>
+					</Pressable>
 					<Pressable
-						flex={0.1}
-						alignSelf="flex-end"
+						// flex={0.1}
+
 						alignItems="center"
 						onPress={() => {
 							setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
 						}}
 					>
-						<Text color="white" fontSize="lg">
-							Flip
-						</Text>
+						<MaterialIcons name="flip-camera-ios" size={36} color="white" />
 					</Pressable>
-					<Pressable flex={0.9} alignSelf="flex-end" alignItems="center" onPress={() => capture()}>
-						<Text color="white" fontSize="lg">
-							Capture
-						</Text>
-					</Pressable>
-				</Container>
+				</Flex>
 			</Camera>
 		</View>
 	);
