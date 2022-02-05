@@ -52,11 +52,11 @@ export default function App({ navigation }) {
 
 	const capture = async () => {
 		if (camera) {
-			const data = await camera.takePictureAsync({
+			const image = await camera.takePictureAsync({
 				base64: true,
 				quality: 0.3,
 			});
-			setImage(data.base64);
+			setImage(image.base64);
 		}
 	};
 
@@ -94,7 +94,7 @@ export default function App({ navigation }) {
 	if (image) {
 		return (
 			<Flex flex={1} alignItems="center">
-				<Image size="300" alt="image" source={{ uri: `data:image/png;base64, ${image}` }} m={10} />
+				<Image size={450} resizeMode="contain" alt="image" source={{ uri: `data:image/png;base64, ${image}` }} m={10} />
 				<Button alignItems="center" w={48} p={3} onPress={() => submitToGoogle(image)}>
 					<Text color="black" fontSize="xl">
 						Next
