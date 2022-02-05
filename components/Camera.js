@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import { View, Container, Text, Pressable, Image, Flex } from "native-base";
+import { View, Text, Pressable, Image, Flex, Button, Heading, Spinner } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -10,6 +10,7 @@ export default function App({ navigation }) {
 	const [type, setType] = useState(Camera.Constants.Type.back);
 	const [camera, setCamera] = useState(null);
 	const [image, setImage] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -19,7 +20,6 @@ export default function App({ navigation }) {
 	}, []);
 
 	const submitToGoogle = async (capturedImage) => {
-		console.log("👋 from submit to google capturedImage ------>", capturedImage);
 		try {
 			let body = JSON.stringify({
 				requests: [
@@ -46,23 +46,67 @@ export default function App({ navigation }) {
 			console.log("👋  ------>", responses);
 			console.log("👋 response res ------>", responses[0].fullTextAnnotation.text);
 		} catch (error) {
-			console.log("👋 error from submit to google ------>", error);
+			console.log("error from submit to google ------>", error);
 		}
 	};
 
 	const capture = async () => {
 		if (camera) {
-			const data = await camera.takePictureAsync({ base64: true, quality: 0.3 });
+			const data = await camera.takePictureAsync({
+				base64: true,
+				quality: 0.3,
+			});
 			setImage(data.base64);
-			submitToGoogle(data.base64);
 		}
+	};
+
+	const pickImage = async () => {
+		setIsLoading(true);
+		let image = await ImagePicker.launchImageLibraryAsync({
+			quality: 0.3,
+			base64: true,
+		});
+		if (!image.cancelled) {
+			setImage(image.base64);
+		}
+		setIsLoading(false);
 	};
 
 	if (hasPermission === null) {
 		return <View />;
 	}
+
 	if (hasPermission === false) {
 		return <Text>No access to camera</Text>;
+	}
+
+	if (isLoading) {
+		return (
+			<Flex flex={1} alignItems="center" justifyContent="center">
+				<Spinner accessibilityLabel="loading" />
+				<Heading color={"black"} fontSize="xl">
+					Loading
+				</Heading>
+			</Flex>
+		);
+	}
+
+	if (image) {
+		return (
+			<Flex flex={1} alignItems="center">
+				<Image size="300" alt="image" source={{ uri: `data:image/png;base64, ${image}` }} m={10} />
+				<Button alignItems="center" w={48} p={3} onPress={() => submitToGoogle(image)}>
+					<Text color="black" fontSize="xl">
+						Next
+					</Text>
+				</Button>
+				<Button alignItems="center" w={48} p={3} margin={3} onPress={() => setImage(null)}>
+					<Text color="black" fontSize="xl">
+						Try Again
+					</Text>
+				</Button>
+			</Flex>
+		);
 	}
 
 	return (
@@ -76,7 +120,7 @@ export default function App({ navigation }) {
 					flexDirection={"row"}
 					mb="10"
 				>
-					<Pressable alignItems="center" onPress={() => capture()}>
+					<Pressable alignItems="center" onPress={() => pickImage()}>
 						<FontAwesome name="photo" size={32} color="white" />
 					</Pressable>
 					<Pressable alignItems="center" onPress={() => capture()}>
@@ -85,8 +129,6 @@ export default function App({ navigation }) {
 						</Text>
 					</Pressable>
 					<Pressable
-						// flex={0.1}
-
 						alignItems="center"
 						onPress={() => {
 							setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
