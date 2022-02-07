@@ -7,7 +7,7 @@ import Home from "./components/Home";
 import Color from "./components/Color";
 import CreateBill from "./components/CreateBill";
 import Camera from "./components/Camera";
-import BillScreen from "./components/BillScreen";
+import BillScreen from "./components/BillPage/BillScreen";
 import FinalizedBill from "./components/FinalizedBill";
 
 //stack navigation
