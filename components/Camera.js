@@ -43,9 +43,8 @@ export default function App({ navigation }) {
 				}
 			);
 			let { responses } = await response.json();
-			console.log("👋  ------>", responses);
-			console.log("👋 response res ------>", responses[0].fullTextAnnotation.text);
-			navigation.navigate("BillScreen", { OCRData: responses });
+			let fullText = responses[0].fullTextAnnotation.text;
+			navigation.navigate("BillScreen", { OCRData: fullText });
 		} catch (error) {
 			console.log("error from submit to google ------>", error);
 		}
