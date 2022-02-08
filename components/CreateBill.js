@@ -1,38 +1,41 @@
-import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  Heading,
-  Input,
-  Text,
-  Pressable,
-} from "native-base";
+import { Box, Button, Center, FormControl, Heading, Input, Text, Pressable } from "native-base";
 import React, { useState } from "react";
 
 export default function CreateBill({ navigation }) {
-  const [billName, setBillName] = useState("");
+	const [billName, setBillName] = useState("");
+	const [payer, setPayer] = useState("");
 
-  return (
-    <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
-      <Center>
-        <FormControl mb="48" pr="5">
-          <Text fontSize="4xl">Bill Name</Text>
-          <Input
-            variant="underlined"
-            width="64"
-            fontSize="24"
-            value={billName}
-            onChangeText={(v) => setBillName(v)}
-          />
-          <FormControl.HelperText mb="8">
-            Give your bill a name.
-          </FormControl.HelperText>
-          <Pressable onPress={() => navigation.navigate("Camera")}>
-            <Text fontSize="2xl">Next</Text>
-          </Pressable>
-        </FormControl>
-      </Center>
-    </Box>
-  );
+	return (
+		<Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
+			<Center>
+				<FormControl mb={24} pr="5">
+					<Text fontSize="4xl">Bill Name</Text>
+					<Input
+						fontWeight={"light"}
+						variant="underlined"
+						width="64"
+						fontSize="24"
+						value={billName}
+						onChangeText={(v) => setBillName(v)}
+					/>
+					<FormControl.HelperText mb="8">Give your bill a name</FormControl.HelperText>
+					<Text fontSize="4xl">Payer</Text>
+					<Input
+						fontWeight={"light"}
+						variant="underlined"
+						width="64"
+						fontSize="24"
+						value={payer}
+						onChangeText={(v) => setPayer(v)}
+					/>
+					<FormControl.HelperText mb={12}>Specify the payer of the bill</FormControl.HelperText>
+					<Button onPress={() => navigation.navigate("Camera", { billName, payer })}>
+						<Text fontSize="xl" color="white">
+							Next
+						</Text>
+					</Button>
+				</FormControl>
+			</Center>
+		</Box>
+	);
 }
