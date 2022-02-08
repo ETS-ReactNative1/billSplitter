@@ -9,7 +9,7 @@ import CreateBill from './components/CreateBill';
 import Camera from './components/Camera';
 import BillScreen from './components/BillPage/BillScreen';
 import FinalizedBill from './components/FinalizedBill';
-
+import TextMessage from './components/TextMessage';
 //stack navigation
 const Stack = createStackNavigator();
 
@@ -31,6 +31,7 @@ export default function App() {
             name="FinalizedBill"
             component={FinalizedBill}
           />
+          <Stack.Screen name="TextMessage" component={TextMessage} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
