@@ -81,11 +81,6 @@ const BillScreen = ({ userList, navigation }) => {
     }
   };
 
-  const handleDelete = (index) => {
-    const temp = list.filter((_, itemI) => itemI !== index);
-    setList(temp);
-  };
-
   const handleUserChange = (selectedUser, itemI) => {
     setUser(selectedUser);
     let tempList = [...list];
@@ -106,7 +101,6 @@ const BillScreen = ({ userList, navigation }) => {
     console.log("Items", tempList);
     for (let item of tempList) {
       if (item.assignee === null) {
-        console.log("There's something unassigned");
         openFinalizeAlert();
         return;
       }
@@ -117,8 +111,8 @@ const BillScreen = ({ userList, navigation }) => {
 
   const openFinalizeAlert = () => {
     Alert.alert(
-      "Unassigned Item!",
-      "Please assign all items.",
+      "Unassigned Item",
+      "Please assign all items",
       [
         {
           text: "Ok",
@@ -129,6 +123,30 @@ const BillScreen = ({ userList, navigation }) => {
         cancelable: false,
       }
     );
+  };
+
+  const handleTrashCan = (index) => {
+    Alert.alert(
+      "Are you sure you want to delete that item?",
+      null,
+      [
+        {
+          text: "Yes",
+          onPress: () => handleDelete(index),
+        },
+        {
+          text: "No",
+        },
+      ],
+      {
+        cancelable: false,
+      }
+    );
+  };
+
+  const handleDelete = (index) => {
+    const temp = list.filter((_, itemI) => itemI !== index);
+    setList(temp);
   };
 
   return (
@@ -188,7 +206,7 @@ const BillScreen = ({ userList, navigation }) => {
                           color="trueGray.400"
                         />
                       }
-                      onPress={() => handleDelete(itemI)}
+                      onPress={() => handleTrashCan(itemI)}
                     />
                     <Text mx="2">{item.name}</Text>
                   </HStack>

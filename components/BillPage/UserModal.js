@@ -9,6 +9,7 @@ import {
 } from "native-base";
 import { useState } from "react";
 import UsersList from "./UsersList";
+import { Platform } from "react-native";
 
 export default function UserModal({ userList, setUserList }) {
   const [inputValue, setInputValue] = useState("");
@@ -29,8 +30,13 @@ export default function UserModal({ userList, setUserList }) {
         >
           Add User
         </Button>
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-          <Modal.Content maxWidth="400px">
+
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          avoidKeyboard
+        >
+          <Modal.Content minWidth="300px" maxWidth="400px">
             <Modal.CloseButton />
             <Modal.Header>New User</Modal.Header>
             <Modal.Body>
