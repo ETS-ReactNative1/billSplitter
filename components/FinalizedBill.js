@@ -21,7 +21,6 @@ import {
 } from "@expo/vector-icons";
 
 export default function FinalizedBill({ navigation }) {
-<<<<<<< HEAD
   // dummy data for what should be in state when this component loads.
   const dummyList = [
     {
@@ -61,49 +60,6 @@ export default function FinalizedBill({ navigation }) {
       payer: false,
     },
   ];
-=======
-	// dummy data for what should be in state when this component loads.
-	// const dummyList = [
-	// 	{
-	// 		title: "Cheeseburger",
-	// 		price: 1000,
-	// 		assignee: "Johan",
-	// 		payer: false,
-	// 	},
-	// 	{
-	// 		title: "Beer",
-	// 		price: 800,
-	// 		assignee: "Lane",
-	// 		payer: false,
-	// 	},
-	// 	{
-	// 		title: "Fries",
-	// 		price: 900,
-	// 		assignee: "Justin",
-	// 		payer: false,
-	// 	},
-	// 	{
-	// 		title: "Cheeseburger",
-	// 		price: 1000,
-	// 		assignee: "Marco",
-	// 		payer: true,
-	// 	},
-	// 	{
-	// 		title: "Beer",
-	// 		price: 800,
-	// 		assignee: "Marco",
-	// 		payer: true,
-	// 	},
-	// 	{
-	// 		title: "Fries",
-	// 		price: 900,
-	// 		assignee: "Justin",
-	// 		payer: false,
-	// 	},
-	// ];
-
-	const dummyList = []
->>>>>>> main
 
   // parses through inputted item list and turns it into an object
   // containing:

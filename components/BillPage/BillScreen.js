@@ -246,7 +246,6 @@ const BillScreen = ({ userList, navigation }) => {
   );
 };
 
-<<<<<<< HEAD
 export default ({ navigation }) => {
   const [userList, setUserList] = useState([
     "Justin",
@@ -262,19 +261,4 @@ export default ({ navigation }) => {
       <UserModal setUserList={setUserList} userList={userList} />
     </NativeBaseProvider>
   );
-=======
-export default ({ route }) => {
-	// was getting an error until I commented the line below.
-	// console.log("👋  OCR stuff ------>", route.params.OCRData);
-	// const [userList, setUserList] = useState(["Justin", "Marco", "Lane", "Johan"]);
-	const [userList, setUserList] = useState([""]);
-	return (
-		<NativeBaseProvider>
-			<Center flex={1} px="3" pb="250">
-				<BillScreen userList={userList} />
-			</Center>
-			<UserModal setUserList={setUserList} userList={userList} />
-		</NativeBaseProvider>
-	);
->>>>>>> main
 };
