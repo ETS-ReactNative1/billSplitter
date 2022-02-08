@@ -27,25 +27,26 @@ import UserModal from "./UserModal";
 import UsersList from "./UsersList";
 
 const BillScreen = ({ userList }) => {
-	const instState = [
-		{
-			name: "Cheeseburger",
-			price: 5.99,
-			assignee: "None",
-		},
-		{
-			name: "Beer",
-			price: 1.99,
-			assignee: "None",
-		},
-		{
-			name: "Fries",
-			price: 0.99,
-			assignee: "None",
-		},
-	];
+	// const instState = [
+	// 	{
+	// 		name: "Cheeseburger",
+	// 		price: 5.99,
+	// 		assignee: "None",
+	// 	},
+	// 	{
+	// 		name: "Beer",
+	// 		price: 1.99,
+	// 		assignee: "None",
+	// 	},
+	// 	{
+	// 		name: "Fries",
+	// 		price: 0.99,
+	// 		assignee: "None",
+	// 	},
+	// ];
 
-	const [list, setList] = useState(instState);
+	// const [list, setList] = useState(instState);
+	const [list, setList] = useState([]);
 	const [user, setUser] = useState("");
 	const [itemName, setItemName] = useState("");
 	const [itemPrice, setItemPrice] = useState("");
@@ -177,8 +178,10 @@ const BillScreen = ({ userList }) => {
 };
 
 export default ({ route }) => {
-	console.log("👋  OCR stuff ------>", route.params.OCRData);
-	const [userList, setUserList] = useState(["Justin", "Marco", "Lane", "Johan"]);
+	// was getting an error until I commented the line below.
+	// console.log("👋  OCR stuff ------>", route.params.OCRData);
+	// const [userList, setUserList] = useState(["Justin", "Marco", "Lane", "Johan"]);
+	const [userList, setUserList] = useState([""]);
 	return (
 		<NativeBaseProvider>
 			<Center flex={1} px="3" pb="250">

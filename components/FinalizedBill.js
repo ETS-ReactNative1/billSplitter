@@ -17,44 +17,46 @@ import { Feather, Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icon
 
 export default function FinalizedBill({ navigation }) {
 	// dummy data for what should be in state when this component loads.
-	const dummyList = [
-		{
-			title: "Cheeseburger",
-			price: 1000,
-			assignee: "Johan",
-			payer: false,
-		},
-		{
-			title: "Beer",
-			price: 800,
-			assignee: "Lane",
-			payer: false,
-		},
-		{
-			title: "Fries",
-			price: 900,
-			assignee: "Justin",
-			payer: false,
-		},
-		{
-			title: "Cheeseburger",
-			price: 1000,
-			assignee: "Marco",
-			payer: true,
-		},
-		{
-			title: "Beer",
-			price: 800,
-			assignee: "Marco",
-			payer: true,
-		},
-		{
-			title: "Fries",
-			price: 900,
-			assignee: "Justin",
-			payer: false,
-		},
-	];
+	// const dummyList = [
+	// 	{
+	// 		title: "Cheeseburger",
+	// 		price: 1000,
+	// 		assignee: "Johan",
+	// 		payer: false,
+	// 	},
+	// 	{
+	// 		title: "Beer",
+	// 		price: 800,
+	// 		assignee: "Lane",
+	// 		payer: false,
+	// 	},
+	// 	{
+	// 		title: "Fries",
+	// 		price: 900,
+	// 		assignee: "Justin",
+	// 		payer: false,
+	// 	},
+	// 	{
+	// 		title: "Cheeseburger",
+	// 		price: 1000,
+	// 		assignee: "Marco",
+	// 		payer: true,
+	// 	},
+	// 	{
+	// 		title: "Beer",
+	// 		price: 800,
+	// 		assignee: "Marco",
+	// 		payer: true,
+	// 	},
+	// 	{
+	// 		title: "Fries",
+	// 		price: 900,
+	// 		assignee: "Justin",
+	// 		payer: false,
+	// 	},
+	// ];
+
+	const dummyList = []
 
 	// parses through inputted item list and turns it into an object
 	// containing:
