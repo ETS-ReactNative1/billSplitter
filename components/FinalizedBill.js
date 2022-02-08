@@ -33,37 +33,37 @@ export default function FinalizedBill({ navigation, route }) {
   // dummy data for what should be in state when this component loads.
   const dummyList = [
     {
-      title: 'Cheeseburger',
+      name: 'Cheeseburger',
       price: 1000,
       assignee: 'Johan',
       payer: false,
     },
     {
-      title: 'Beer',
+      name: 'Beer',
       price: 800,
       assignee: 'Lane',
       payer: false,
     },
     {
-      title: 'Fries',
+      name: 'Fries',
       price: 900,
       assignee: 'Justin',
       payer: false,
     },
     {
-      title: 'Cheeseburger',
+      name: 'Cheeseburger',
       price: 1000,
       assignee: 'Marco',
       payer: true,
     },
     {
-      title: 'Beer',
+      name: 'Beer',
       price: 800,
       assignee: 'Marco',
       payer: true,
     },
     {
-      title: 'Fries',
+      name: 'Fries',
       price: 900,
       assignee: 'Justin',
       payer: false,
@@ -76,7 +76,7 @@ export default function FinalizedBill({ navigation, route }) {
   // parses through inputted item list and turns it into an object
   // containing:
   // finalBill.payer: string of payer's name.
-  //, finalBill.billItems: array of objects (title, price, assignee, payer)
+  //, finalBill.billItems: array of objects (name, price, assignee, payer)
   // finalBill.totals: array of objects (assignee, total, payer(T/F)
   const finalizeBill = (list) => {
     let finalBill = {};
@@ -171,7 +171,7 @@ export default function FinalizedBill({ navigation, route }) {
           {bill.billItems.map((item, index) => (
             <HStack key={index} w="100%" justifyContent="center">
               <HStack w="50%" justifyContent="flex-start">
-                <Text mx="2">{item.title}</Text>
+                <Text mx="2">{item.name}</Text>
               </HStack>
               <HStack w="20%" justifyContent="center">
                 <Text mx="2">{item.price}</Text>
