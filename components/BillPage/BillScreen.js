@@ -94,14 +94,14 @@ const BillScreen = ({ userList, navigation }) => {
 		setUser("");
 	};
 
-	const finalizeBill = () => {
+	const next = () => {
 		// console.log("Bill is now finalizing");
 		let tempList = [...list];
 		console.log("Items", tempList);
 		for (let item of tempList) {
 			if (item.assignee === null) {
 				console.log("There's something unassigned");
-				openFinalizeAlert();
+				openAssignAlert();
 				return;
 			}
 		}
@@ -109,7 +109,7 @@ const BillScreen = ({ userList, navigation }) => {
 		navigation.navigate("FinalizedBill");
 	};
 
-	const openFinalizeAlert = () => {
+	const openAssignAlert = () => {
 		Alert.alert(
 			"Unassigned Item!",
 			"Please assign all items.",
@@ -194,8 +194,8 @@ const BillScreen = ({ userList, navigation }) => {
 								</HStack>
 							))}
 
-							<Button colorScheme="green" shadow={2} style={{ borderRadius: 0 }} onPress={() => finalizeBill()}>
-								Finalize Bill
+							<Button colorScheme="green" shadow={2} style={{ borderRadius: 0 }} onPress={() => next()}>
+								Next
 							</Button>
 						</VStack>
 					</ScrollView>
@@ -204,7 +204,6 @@ const BillScreen = ({ userList, navigation }) => {
 		</Center>
 	);
 };
-
 export default ({ navigation, route }) => {
 	console.log("👋 ocr data ------>", route?.params?.OCRData);
 	console.log("👋 payer ------>", route?.params?.payer);
