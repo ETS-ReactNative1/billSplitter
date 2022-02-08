@@ -27,6 +27,7 @@ import {
   Entypo,
   FontAwesome,
   SimpleLineIcons,
+  AntDesign,
 } from "@expo/vector-icons";
 
 import UserModal from "./UserModal";
@@ -38,17 +39,17 @@ const BillScreen = ({ userList, navigation }) => {
     {
       name: "Cheeseburger",
       price: 5.99,
-      assignee: "None",
+      assignee: null,
     },
     {
       name: "Beer",
       price: 1.99,
-      assignee: "None",
+      assignee: null,
     },
     {
       name: "Fries",
       price: 0.99,
-      assignee: "None",
+      assignee: null,
     },
   ];
 
@@ -64,7 +65,7 @@ const BillScreen = ({ userList, navigation }) => {
           {
             name: name,
             price: price,
-            assignee: "none",
+            assignee: null,
           },
         ])
       : null;
@@ -186,6 +187,14 @@ const BillScreen = ({ userList, navigation }) => {
                         bg: "cyan.600",
                         endIcon: <CheckIcon size={4} />,
                       }}
+                      dropdownIcon={
+                        <Icon
+                          as={AntDesign}
+                          name="down"
+                          size={3}
+                          color="black"
+                        />
+                      }
                     >
                       {userList.map((singlePerson, i) => (
                         <Select.Item
