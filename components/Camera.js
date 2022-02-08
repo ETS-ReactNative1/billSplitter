@@ -8,7 +8,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 // console.log("this is process obj", process);
 // console.log("this is apiKey in Camera.js", apiKey);
 
-export default function App({ navigation }) {
+export default function App({ navigation, route }) {
+	const { payer, billName } = route.params;
 	const [hasPermission, setHasPermission] = useState(null);
 	const [type, setType] = useState(Camera.Constants.Type.back);
 	const [camera, setCamera] = useState(null);
@@ -48,7 +49,7 @@ export default function App({ navigation }) {
 			);
 			let { responses } = await response.json();
 			let fullText = responses[0].fullTextAnnotation.text;
-			navigation.navigate("BillScreen", { OCRData: fullText });
+			navigation.navigate("BillScreen", { OCRData: fullText, payer, billName });
 		} catch (error) {
 			console.log("error from submit to google ------>", error);
 		}
@@ -116,6 +117,11 @@ export default function App({ navigation }) {
 	return (
 		<View flex={1}>
 			<Camera style={{ flex: 1 }} type={type} ref={(ref) => setCamera(ref)}>
+				<Pressable alignSelf="flex-end" p={2} onPress={() => navigation.navigate("BillScreen", { payer, billName })}>
+					<Text color="white" fontSize="xl">
+						Edit bill manually
+					</Text>
+				</Pressable>
 				<Flex
 					alignItems="flex-end"
 					flex={1}
@@ -124,16 +130,15 @@ export default function App({ navigation }) {
 					flexDirection={"row"}
 					mb="10"
 				>
-					<Pressable alignItems="center" onPress={() => pickImage()}>
+					<Pressable onPress={() => pickImage()}>
 						<FontAwesome name="photo" size={32} color="white" />
 					</Pressable>
-					<Pressable alignItems="center" onPress={() => capture()}>
+					<Pressable onPress={() => capture()}>
 						<Text color="white" fontSize="xl">
 							Capture
 						</Text>
 					</Pressable>
 					<Pressable
-						alignItems="center"
 						onPress={() => {
 							setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
 						}}
