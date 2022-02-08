@@ -23,6 +23,14 @@ export default function Home({ navigation }) {
       <Button
         variant="link"
         size="lg"
+        onPress={() => navigation.navigate("BillScreen")}
+      >
+        Edit Bill
+      </Button>
+
+      <Button
+        variant="link"
+        size="lg"
         onPress={() => navigation.navigate("FinalizedBill")}
       >
         View Finalized Bill Example
