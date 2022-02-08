@@ -23,7 +23,13 @@ import { Alert } from 'react-native';
 
 import TextMessage from './TextMessage';
 
-export default function FinalizedBill({ navigation }) {
+export default function FinalizedBill({ navigation, route }) {
+
+  const billName = route.params.billName;
+  const payer = route.params.payer;
+  const billItems = route.params.list;
+  console.log('billnamemeeee ', billName)
+
   // dummy data for what should be in state when this component loads.
   const dummyList = [
     {
@@ -64,6 +70,9 @@ export default function FinalizedBill({ navigation }) {
     },
   ];
 
+
+
+
   // parses through inputted item list and turns it into an object
   // containing:
   // finalBill.payer: string of payer's name.
@@ -74,12 +83,11 @@ export default function FinalizedBill({ navigation }) {
     let party = [];
     let totals = [];
 
+    finalBill.payer = payer;
+
+
     //copy over bill items to the final bill.
     const billItems = list.map((item) => {
-      //identify the payer.
-      if (item.payer === true) {
-        finalBill.payer = item.assignee;
-      }
       //build the party of unique members.
       if (!party.includes(item.assignee)) {
         party.push(item.assignee);
@@ -120,9 +128,10 @@ export default function FinalizedBill({ navigation }) {
     return finalBill;
   };
 
-  const finalBill = finalizeBill(dummyList);
+  const finalBill = finalizeBill(billItems);
 
   const [bill, setBil] = React.useState(finalBill);
+
   const billIsFinal = () => {
     console.log('billisFinal has been clicked!!!');
     finalizeAlert();
@@ -155,7 +164,7 @@ export default function FinalizedBill({ navigation }) {
       <Box maxW="350" w="100%">
         <Center w="100%">
           <Heading m="10" size="xl">
-            Your Finalized Bill
+            {`Your Final Bill: ${billName}`}
           </Heading>
         </Center>
         <VStack space={2}>

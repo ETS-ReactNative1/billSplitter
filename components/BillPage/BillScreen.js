@@ -31,7 +31,7 @@ import UserModal from "./UserModal";
 import UsersList from "./UsersList";
 import FinalizedBill from "../FinalizedBill";
 
-const BillScreen = ({ userList, navigation }) => {
+const BillScreen = ({ userList, navigation, billName, payer }) => {
 	const instState = [
 		{
 			name: "Cheeseburger",
@@ -50,7 +50,9 @@ const BillScreen = ({ userList, navigation }) => {
 		},
 	];
 
-	const [list, setList] = useState(instState);
+	// const [list, setList] = useState(instState);
+
+	const [list, setList] = useState([]);
 	const [user, setUser] = useState("");
 	const [itemName, setItemName] = useState("");
 	const [itemPrice, setItemPrice] = useState("");
@@ -106,7 +108,7 @@ const BillScreen = ({ userList, navigation }) => {
 			}
 		}
 		console.log("Everything is assigned");
-		navigation.navigate("FinalizedBill");
+		navigation.navigate("FinalizedBill", {billName, payer, list});
 	};
 
 	const openAssignAlert = () => {
@@ -212,7 +214,12 @@ export default ({ navigation, route }) => {
 	return (
 		<NativeBaseProvider>
 			<Center flex={1} px="3" pb="250">
-				<BillScreen userList={userList} navigation={navigation} />
+				<BillScreen
+					userList={userList}
+					navigation={navigation}
+					payer={route?.params?.payer}
+					billName={route?.params?.billName}
+				/>
 			</Center>
 			<UserModal setUserList={setUserList} userList={userList} />
 		</NativeBaseProvider>
