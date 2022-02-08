@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Input,
   IconButton,
@@ -12,51 +12,54 @@ import {
   Icon,
   Center,
   NativeBaseProvider,
-} from "native-base";
+} from 'native-base';
 import {
   Feather,
   Entypo,
   FontAwesome,
   SimpleLineIcons,
-} from "@expo/vector-icons";
+} from '@expo/vector-icons';
+import { Alert } from 'react-native';
+
+import TextMessage from './TextMessage';
 
 export default function FinalizedBill({ navigation }) {
   // dummy data for what should be in state when this component loads.
   const dummyList = [
     {
-      title: "Cheeseburger",
+      title: 'Cheeseburger',
       price: 1000,
-      assignee: "Johan",
+      assignee: 'Johan',
       payer: false,
     },
     {
-      title: "Beer",
+      title: 'Beer',
       price: 800,
-      assignee: "Lane",
+      assignee: 'Lane',
       payer: false,
     },
     {
-      title: "Fries",
+      title: 'Fries',
       price: 900,
-      assignee: "Justin",
+      assignee: 'Justin',
       payer: false,
     },
     {
-      title: "Cheeseburger",
+      title: 'Cheeseburger',
       price: 1000,
-      assignee: "Marco",
+      assignee: 'Marco',
       payer: true,
     },
     {
-      title: "Beer",
+      title: 'Beer',
       price: 800,
-      assignee: "Marco",
+      assignee: 'Marco',
       payer: true,
     },
     {
-      title: "Fries",
+      title: 'Fries',
       price: 900,
-      assignee: "Justin",
+      assignee: 'Justin',
       payer: false,
     },
   ];
@@ -120,7 +123,33 @@ export default function FinalizedBill({ navigation }) {
   const finalBill = finalizeBill(dummyList);
 
   const [bill, setBil] = React.useState(finalBill);
+  const billIsFinal = () => {
+    console.log('billisFinal has been clicked!!!');
+    finalizeAlert();
+  };
 
+  const finalizeAlert = () => {
+    Alert.alert(
+      'Confirm before submitting!',
+      'Does everything look good?',
+      [
+        {
+          text: 'Looks Good!',
+          onPress: () => {
+            console.log('Looks Good Pressed!');
+            navigation.navigate('TextMessage');
+          },
+        },
+        {
+          text: 'Go back!',
+          onPress: () => {
+            console.log('Go back was pressed!');
+            return;
+          },
+        },
+      ],
+    );
+  };
   return (
     <Center w="100%">
       <Box maxW="350" w="100%">
@@ -156,7 +185,7 @@ export default function FinalizedBill({ navigation }) {
                 <Text mx="2">{total.assignee}</Text>
                 <Text mx="2">
                   {bill.payer === total.assignee
-                    ? "paid for themself"
+                    ? 'paid for themself'
                     : `owes ${bill.payer}`}
                 </Text>
               </HStack>
@@ -166,6 +195,14 @@ export default function FinalizedBill({ navigation }) {
             </HStack>
           ))}
         </VStack>
+        <Button
+          colorScheme="green"
+          shadow={2}
+          style={{ borderRadius: 0 }}
+          onPress={() => billIsFinal()}
+        >
+          Finalize Bill!
+        </Button>
       </Box>
     </Center>
   );
