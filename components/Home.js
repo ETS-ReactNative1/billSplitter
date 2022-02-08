@@ -35,6 +35,14 @@ export default function Home({ navigation }) {
       >
         View Finalized Bill Example
       </Button>
+
+      <Button
+        variant="link"
+        size="lg"
+        onPress={() => navigation.navigate("BillScreen")}
+      >
+        Edit Bill Screen Shortcut
+      </Button>
     </Box>
   );
 }
