@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Input,
   FlatList,
@@ -21,9 +21,9 @@ import {
   Select,
   CheckIcon,
   Button,
-} from "native-base";
+} from 'native-base';
 
-import { Alert } from "react-native";
+import { Alert } from 'react-native';
 
 import {
   Feather,
@@ -31,35 +31,35 @@ import {
   FontAwesome,
   SimpleLineIcons,
   AntDesign,
-} from "@expo/vector-icons";
+} from '@expo/vector-icons';
 
-import UserModal from "./UserModal";
-import UsersList from "./UsersList";
-import FinalizedBill from "../FinalizedBill";
+import UserModal from './UserModal';
+import UsersList from './UsersList';
+import FinalizedBill from '../FinalizedBill';
 
 const BillScreen = ({ userList, navigation }) => {
   const instState = [
     {
-      name: "Cheeseburger",
+      name: 'Cheeseburger',
       price: 5.99,
       assignee: null,
     },
     {
-      name: "Beer",
+      name: 'Beer',
       price: 1.99,
       assignee: null,
     },
     {
-      name: "Fries",
+      name: 'Fries',
       price: 0.99,
       assignee: null,
     },
   ];
 
   const [list, setList] = useState(instState);
-  const [user, setUser] = useState("");
-  const [itemName, setItemName] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
+  const [user, setUser] = useState('');
+  const [itemName, setItemName] = useState('');
+  const [itemPrice, setItemPrice] = useState('');
 
   const addItem = (name, price) => {
     validation(name, price)
@@ -97,37 +97,37 @@ const BillScreen = ({ userList, navigation }) => {
       counter++;
     }
     setList([...tempList]);
-    setUser("");
+    setUser('');
   };
 
-  const finalizeBill = () => {
+  const next = () => {
     // console.log("Bill is now finalizing");
     let tempList = [...list];
-    console.log("Items", tempList);
+    console.log('Items', tempList);
     for (let item of tempList) {
       if (item.assignee === null) {
         console.log("There's something unassigned");
-        openFinalizeAlert();
+        openAssignAlert();
         return;
       }
     }
-    console.log("Everything is assigned");
-    navigation.navigate("FinalizedBill");
+    console.log('Everything is assigned');
+    navigation.navigate('FinalizedBill');
   };
 
-  const openFinalizeAlert = () => {
+  const openAssignAlert = () => {
     Alert.alert(
-      "Unassigned Item!",
-      "Please assign all items.",
+      'Unassigned Item!',
+      'Please assign all items.',
       [
         {
-          text: "Ok",
-          onPress: () => console.log("Later button clicked"),
+          text: 'Ok',
+          onPress: () => console.log('Later button clicked'),
         },
       ],
       {
         cancelable: false,
-      }
+      },
     );
   };
 
@@ -157,12 +157,17 @@ const BillScreen = ({ userList, navigation }) => {
               borderRadius="sm"
               variant="solid"
               icon={
-                <Icon as={Feather} name="plus" size="sm" color="warmGray.50" />
+                <Icon
+                  as={Feather}
+                  name="plus"
+                  size="sm"
+                  color="warmGray.50"
+                />
               }
               onPress={() => {
                 addItem(itemName, itemPrice);
-                setItemName("");
-                setItemPrice("");
+                setItemName('');
+                setItemPrice('');
               }}
               colorScheme="green"
             />
@@ -202,7 +207,7 @@ const BillScreen = ({ userList, navigation }) => {
                         handleUserChange(itemValue, itemI)
                       }
                       _selectedItem={{
-                        bg: "cyan.600",
+                        bg: 'cyan.600',
                         endIcon: <CheckIcon size={4} />,
                       }}
                       dropdownIcon={
@@ -219,12 +224,16 @@ const BillScreen = ({ userList, navigation }) => {
                         <Select.Item
                           label={singlePerson}
                           value={singlePerson}
-                          key={singlePerson + i.toString() + itemI.toString()}
+                          key={
+                            singlePerson +
+                            i.toString() +
+                            itemI.toString()
+                          }
                         />
                       ))}
                     </Select>
-                    <Text style={{ fontWeight: "bold" }}>
-                      {"$" + String(item.price)}
+                    <Text style={{ fontWeight: 'bold' }}>
+                      {'$' + String(item.price)}
                     </Text>
                   </HStack>
                 </HStack>
@@ -234,9 +243,9 @@ const BillScreen = ({ userList, navigation }) => {
                 colorScheme="green"
                 shadow={2}
                 style={{ borderRadius: 0 }}
-                onPress={() => finalizeBill()}
+                onPress={() => next()}
               >
-                Finalize Bill
+                Next
               </Button>
             </VStack>
           </ScrollView>
@@ -248,10 +257,10 @@ const BillScreen = ({ userList, navigation }) => {
 
 export default ({ navigation }) => {
   const [userList, setUserList] = useState([
-    "Justin",
-    "Marco",
-    "Lane",
-    "Johan",
+    'Justin',
+    'Marco',
+    'Lane',
+    'Johan',
   ]);
   return (
     <NativeBaseProvider>
