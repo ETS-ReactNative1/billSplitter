@@ -210,7 +210,7 @@ export default ({ navigation, route }) => {
 	console.log("👋 ocr data ------>", route?.params?.OCRData);
 	console.log("👋 payer ------>", route?.params?.payer);
 	console.log("👋 bill name ------>", route?.params?.billName);
-	const [userList, setUserList] = useState([""]);
+	const [userList, setUserList] = useState([route?.params?.payer]);
 	return (
 		<NativeBaseProvider>
 			<Center flex={1} px="3" pb="250">
