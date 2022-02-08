@@ -22,6 +22,9 @@ import {
   CheckIcon,
   Button,
 } from "native-base";
+
+import { Alert } from "react-native";
+
 import {
   Feather,
   Entypo,
@@ -96,21 +99,36 @@ const BillScreen = ({ userList, navigation }) => {
     setList([...tempList]);
     setUser("");
   };
-  // function populateMenu(data, itemIndex) {
-  //   return data.map((singlePerson, i) => {
-  //     return (
-  //       <Select.Item
-  //         label={singlePerson}
-  //         value={singlePerson}
-  //         key={Math.random()}
-  //       />
-  //     );
-  //   });
-  // }
 
   const finalizeBill = () => {
-    console.log("Bill is now finalizing");
+    // console.log("Bill is now finalizing");
+    let tempList = [...list];
+    console.log("Items", tempList);
+    for (let item of tempList) {
+      if (item.assignee === null) {
+        console.log("There's something unassigned");
+        openFinalizeAlert();
+        return;
+      }
+    }
+    console.log("Everything is assigned");
     navigation.navigate("FinalizedBill");
+  };
+
+  const openFinalizeAlert = () => {
+    Alert.alert(
+      "Unassigned Item!",
+      "Please assign all items.",
+      [
+        {
+          text: "Ok",
+          onPress: () => console.log("Later button clicked"),
+        },
+      ],
+      {
+        cancelable: false,
+      }
+    );
   };
 
   return (
@@ -193,6 +211,7 @@ const BillScreen = ({ userList, navigation }) => {
                           name="down"
                           size={3}
                           color="black"
+                          pr={4}
                         />
                       }
                     >
