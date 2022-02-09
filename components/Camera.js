@@ -25,51 +25,31 @@ export default function App({ navigation, route }) {
 
 	const submitToGoogle = async (capturedImage) => {
 		try {
-			let body = JSON.stringify({
-				requests: [
-					{
-						features: [{ type: "TEXT_DETECTION" }],
-						image: {
-							content: capturedImage,
-						},
-					},
-				],
-			});
-			let response = await fetch(
-				// `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
-				`https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDf9qZKNsKcL0ATHdxZGsjgWWj6Ga5an0Q`,
-				{
-					headers: {
-						Accept: "application/json",
-						"Content-Type": "application/json",
-					},
+			const fetchData = async () => {
+				const base64Str = "data:image/jpg;base64," + capturedImage;
+				var data = new FormData();
+				data.append("base64Image", base64Str);
+				data.append("isTable", true);
+
+				const headers = {
+					Accept: "application/json",
+					"Content-Type": "multipart/form-data;",
+					apiKey: "K81848835288957",
+				};
+				const config = {
 					method: "POST",
-					body: body,
-				}
-			);
-			let { responses } = await response.json();
-			const dataToList = (data) => {
-				console.log("👋 data no split ------>", data[0].fullTextAnnotation.text);
-				data = data[0].fullTextAnnotation.text.split("\n");
-				console.log("👋 data ------>", data);
-				const food = [];
-				const price = [];
-				const list = {};
-				for (let i = 5; i < 9; i++) {
-					food.push(data[i].slice(2));
-				}
-				for (let i = 9; i < 13; i++) {
-					price.push(data[i]);
-				}
-				console.log("👋 food ------>", food);
-				console.log("👋 price ------>", price);
-				food.forEach((food, idx) => {
-					list[food] = price[idx];
-				});
-				return list;
+					headers,
+					body: data,
+				};
+				const URL = "https://api.ocr.space/parse/image";
+				const ocr = await fetch(URL, config);
+				return ocr.json();
 			};
-			const list = dataToList(responses);
-			navigation.navigate("BillScreen", { OCRData: list, payer, billName });
+
+			const ocrData = await fetchData();
+			console.log("👋 ocrData ------>", ocrData.ParsedResults[0].ParsedText);
+
+			// navigation.navigate("BillScreen", { OCRData: list, payer, billName });
 		} catch (error) {
 			console.log("error from submit to google ------>", error);
 		}
