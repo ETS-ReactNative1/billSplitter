@@ -48,8 +48,24 @@ export default function App({ navigation, route }) {
 				}
 			);
 			let { responses } = await response.json();
-			let fullText = responses[0].fullTextAnnotation.text;
-			navigation.navigate("BillScreen", { OCRData: fullText, payer, billName });
+			const dataToList = (data) => {
+				data = data[0].fullTextAnnotation.text.split("\n");
+				const food = [];
+				const price = [];
+				const list = {};
+				for (let i = 5; i < 9; i++) {
+					food.push(data[i].slice(2));
+				}
+				for (let i = 9; i < 13; i++) {
+					price.push(data[i]);
+				}
+				food.forEach((food, idx) => {
+					list[food] = price[idx];
+				});
+				return list;
+			};
+			const list = dataToList(responses);
+			navigation.navigate("BillScreen", { OCRData: list, payer, billName });
 		} catch (error) {
 			console.log("error from submit to google ------>", error);
 		}
