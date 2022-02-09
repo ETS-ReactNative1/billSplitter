@@ -12,6 +12,7 @@ import {
   Icon,
   Center,
   NativeBaseProvider,
+  FlatList,
 } from 'native-base';
 import {
   Feather,
@@ -19,7 +20,7 @@ import {
   FontAwesome,
   SimpleLineIcons,
 } from '@expo/vector-icons';
-import { Alert } from 'react-native';
+import { Alert, View, StyleSheet } from 'react-native';
 
 import TextMessage from './TextMessage';
 
@@ -28,37 +29,37 @@ export default function FinalizedBill({ navigation }) {
   const dummyList = [
     {
       title: 'Cheeseburger',
-      price: 1000,
+      price: 10.0,
       assignee: 'Johan',
       payer: false,
     },
     {
       title: 'Beer',
-      price: 800,
+      price: 8.0,
       assignee: 'Lane',
       payer: false,
     },
     {
       title: 'Fries',
-      price: 900,
+      price: 9.0,
       assignee: 'Justin',
       payer: false,
     },
     {
       title: 'Cheeseburger',
-      price: 1000,
+      price: 10.0,
       assignee: 'Marco',
       payer: true,
     },
     {
       title: 'Beer',
-      price: 800,
+      price: 8.0,
       assignee: 'Marco',
       payer: true,
     },
     {
       title: 'Fries',
-      price: 900,
+      price: 9.0,
       assignee: 'Justin',
       payer: false,
     },
@@ -150,14 +151,45 @@ export default function FinalizedBill({ navigation }) {
       ],
     );
   };
+  const currencyConverter = (number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(number);
+  };
+  // console.log('THIS IS BILL', bill);
+  // console.log('THIS IS BILLITEMS', bill.billItems);
+
+  // const styles = StyleSheet.create({
+  //   body: {
+  //     backgroundColor: 'white',
+  //     flex: 1,
+  //   },
+  //   listWrapper: {
+  //     flexDirection: 'row',
+  //     flexWrap: 'wrap',
+  //     borderBottomWidth: 5,
+  //   },
+  //   row: {
+  //     backgroundColor: 'white',
+  //     flex: 1,
+  //     fontSize: 14,
+  //     paddingHorizontal: 2,
+  //     paddingVertical: 30,
+  //   },
+  // });
   return (
     <Center w="100%">
       <Box maxW="350" w="100%">
         <Center w="100%">
           <Heading m="10" size="xl">
-            Your Finalized Bill
+            <Text style={{ textDecorationLine: 'underline' }}>
+              Finalized Bill!!
+            </Text>
           </Heading>
         </Center>
+
         <VStack space={2}>
           {bill.billItems.map((item, index) => (
             <HStack key={index} w="100%" justifyContent="center">
@@ -165,7 +197,9 @@ export default function FinalizedBill({ navigation }) {
                 <Text mx="2">{item.title}</Text>
               </HStack>
               <HStack w="20%" justifyContent="center">
-                <Text mx="2">{item.price}</Text>
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(item.price)}
+                </Text>
               </HStack>
               <HStack w="20%" justifyContent="flex-end" space={2}>
                 <Text mx="2">{item.assignee}</Text>
@@ -175,7 +209,9 @@ export default function FinalizedBill({ navigation }) {
         </VStack>
         <Center w="100%">
           <Heading m="10" size="xl">
-            Totals By Person
+            <Text style={{ textDecorationLine: 'underline' }}>
+              Totals per Person!
+            </Text>
           </Heading>
         </Center>
         <VStack space={2}>
@@ -190,7 +226,9 @@ export default function FinalizedBill({ navigation }) {
                 </Text>
               </HStack>
               <HStack w="45%" justifyContent="flex-end" space={2}>
-                <Text mx="2">{total.total}</Text>
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(total.total)}
+                </Text>
               </HStack>
             </HStack>
           ))}
