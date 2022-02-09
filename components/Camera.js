@@ -24,12 +24,14 @@ export default function App({ navigation, route }) {
 	}, []);
 
 	const submitToGoogle = async (capturedImage) => {
+		setIsLoading(true);
 		try {
 			const fetchData = async () => {
-				const base64Str = "data:image/jpg;base64," + capturedImage;
+				const base64Str = `data:image/jpg;base64, ${capturedImage}`;
 				var data = new FormData();
 				data.append("base64Image", base64Str);
 				data.append("isTable", true);
+				data.append("scale", true);
 
 				const headers = {
 					Accept: "application/json",
@@ -46,10 +48,14 @@ export default function App({ navigation, route }) {
 				return ocr.json();
 			};
 
-			const ocrData = await fetchData();
-			console.log("👋 ocrData ------>", ocrData.ParsedResults[0].ParsedText);
+			const OCRData = await fetchData();
+			setIsLoading(false);
+			console.log("👋 OCRDATA raw ------>", OCRData);
+			console.log("👋 Is Error Processing from ocr space fetch ------>", OCRData.IsErroredOnProcessing);
+			console.log("👋 Error Message from ocr space fetch ------>", OCRData.ErrorMessage);
+			const ocrSpace = OCRData?.ParsedResults[0]?.ParsedText;
 
-			// navigation.navigate("BillScreen", { OCRData: list, payer, billName });
+			navigation.navigate("BillScreen", { OCRData: OCRData?.ParsedResults[0]?.ParsedText, payer, billName });
 		} catch (error) {
 			console.log("error from submit to google ------>", error);
 		}

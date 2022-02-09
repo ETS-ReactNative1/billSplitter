@@ -1,4 +1,4 @@
-import { Box, Button, Center, FormControl, Heading, Input, Text, Pressable } from "native-base";
+import { Box, Button, Center, FormControl, Heading, Input, Text, Pressable, KeyboardAvoidingView } from "native-base";
 import React, { useState } from "react";
 
 export default function CreateBill({ navigation }) {
@@ -6,7 +6,7 @@ export default function CreateBill({ navigation }) {
 	const [payer, setPayer] = useState("");
 
 	return (
-		<Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
+		<KeyboardAvoidingView behavior="padding" flex={1} bg="#fff" alignItems="center" justifyContent="center">
 			<Center>
 				<FormControl mb={24} pr="5">
 					<Text fontSize="4xl">Bill Name</Text>
@@ -36,6 +36,6 @@ export default function CreateBill({ navigation }) {
 					</Button>
 				</FormControl>
 			</Center>
-		</Box>
+		</KeyboardAvoidingView>
 	);
 }
