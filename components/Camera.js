@@ -49,7 +49,9 @@ export default function App({ navigation, route }) {
 			);
 			let { responses } = await response.json();
 			const dataToList = (data) => {
+				console.log("👋 data no split ------>", data[0].fullTextAnnotation.text);
 				data = data[0].fullTextAnnotation.text.split("\n");
+				console.log("👋 data ------>", data);
 				const food = [];
 				const price = [];
 				const list = {};
@@ -59,6 +61,8 @@ export default function App({ navigation, route }) {
 				for (let i = 9; i < 13; i++) {
 					price.push(data[i]);
 				}
+				console.log("👋 food ------>", food);
+				console.log("👋 price ------>", price);
 				food.forEach((food, idx) => {
 					list[food] = price[idx];
 				});
