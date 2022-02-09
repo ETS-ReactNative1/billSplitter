@@ -23,63 +23,71 @@ import { Alert } from 'react-native';
 
 import TextMessage from './TextMessage';
 
-export default function FinalizedBill({ navigation }) {
+export default function FinalizedBill({ navigation, route }) {
+
+  const billName = route.params.billName;
+  const payer = route.params.payer;
+  const billItems = route.params.list;
+  console.log('billnamemeeee ', billName)
+
   // dummy data for what should be in state when this component loads.
   const dummyList = [
     {
-      title: 'Cheeseburger',
+      name: 'Cheeseburger',
       price: 1000,
       assignee: 'Johan',
       payer: false,
     },
     {
-      title: 'Beer',
+      name: 'Beer',
       price: 800,
       assignee: 'Lane',
       payer: false,
     },
     {
-      title: 'Fries',
+      name: 'Fries',
       price: 900,
       assignee: 'Justin',
       payer: false,
     },
     {
-      title: 'Cheeseburger',
+      name: 'Cheeseburger',
       price: 1000,
       assignee: 'Marco',
       payer: true,
     },
     {
-      title: 'Beer',
+      name: 'Beer',
       price: 800,
       assignee: 'Marco',
       payer: true,
     },
     {
-      title: 'Fries',
+      name: 'Fries',
       price: 900,
       assignee: 'Justin',
       payer: false,
     },
   ];
 
+
+
+
   // parses through inputted item list and turns it into an object
   // containing:
   // finalBill.payer: string of payer's name.
-  //, finalBill.billItems: array of objects (title, price, assignee, payer)
+  //, finalBill.billItems: array of objects (name, price, assignee, payer)
   // finalBill.totals: array of objects (assignee, total, payer(T/F)
   const finalizeBill = (list) => {
     let finalBill = {};
     let party = [];
     let totals = [];
 
+    finalBill.payer = payer;
+
+
     //copy over bill items to the final bill.
     const billItems = list.map((item) => {
-      //identify the payer.
-      if (item.payer === true) {
-        finalBill.payer = item.assignee;
-      }
       //build the party of unique members.
       if (!party.includes(item.assignee)) {
         party.push(item.assignee);
@@ -120,9 +128,10 @@ export default function FinalizedBill({ navigation }) {
     return finalBill;
   };
 
-  const finalBill = finalizeBill(dummyList);
+  const finalBill = finalizeBill(billItems);
 
   const [bill, setBil] = React.useState(finalBill);
+
   const billIsFinal = () => {
     console.log('billisFinal has been clicked!!!');
     finalizeAlert();
@@ -155,14 +164,14 @@ export default function FinalizedBill({ navigation }) {
       <Box maxW="350" w="100%">
         <Center w="100%">
           <Heading m="10" size="xl">
-            Your Finalized Bill
+            {`Your Final Bill: ${billName}`}
           </Heading>
         </Center>
         <VStack space={2}>
           {bill.billItems.map((item, index) => (
             <HStack key={index} w="100%" justifyContent="center">
               <HStack w="50%" justifyContent="flex-start">
-                <Text mx="2">{item.title}</Text>
+                <Text mx="2">{item.name}</Text>
               </HStack>
               <HStack w="20%" justifyContent="center">
                 <Text mx="2">{item.price}</Text>

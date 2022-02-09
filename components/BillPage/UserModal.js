@@ -29,7 +29,11 @@ export default function UserModal({ userList, setUserList }) {
         >
           Add User
         </Button>
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          avoidKeyboard
+        >
           <Modal.Content maxWidth="400px">
             <Modal.CloseButton />
             <Modal.Header>New User</Modal.Header>
