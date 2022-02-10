@@ -12,6 +12,7 @@ import {
   Icon,
   Center,
   NativeBaseProvider,
+  FlatList,
 } from 'native-base';
 import {
   Feather,
@@ -19,59 +20,55 @@ import {
   FontAwesome,
   SimpleLineIcons,
 } from '@expo/vector-icons';
-import { Alert } from 'react-native';
+import { Alert, View, StyleSheet } from 'react-native';
 
 import TextMessage from './TextMessage';
 
 export default function FinalizedBill({ navigation, route }) {
-
   const billName = route.params.billName;
   const payer = route.params.payer;
   const billItems = route.params.list;
-  console.log('billnamemeeee ', billName)
+  console.log('billnamemeeee ', billName);
 
   // dummy data for what should be in state when this component loads.
   const dummyList = [
     {
-      name: 'Cheeseburger',
-      price: 1000,
+      title: 'Cheeseburger',
+      price: 10.0,
       assignee: 'Johan',
       payer: false,
     },
     {
-      name: 'Beer',
-      price: 800,
+      title: 'Beer',
+      price: 8.0,
       assignee: 'Lane',
       payer: false,
     },
     {
-      name: 'Fries',
-      price: 900,
+      title: 'Fries',
+      price: 9.0,
       assignee: 'Justin',
       payer: false,
     },
     {
-      name: 'Cheeseburger',
-      price: 1000,
+      title: 'Cheeseburger',
+      price: 10.0,
       assignee: 'Marco',
       payer: true,
     },
     {
-      name: 'Beer',
-      price: 800,
+      title: 'Beer',
+      price: 8.0,
       assignee: 'Marco',
       payer: true,
     },
     {
-      name: 'Fries',
-      price: 900,
+      title: 'Fries',
+      price: 9.0,
       assignee: 'Justin',
       payer: false,
     },
   ];
-
-
-
 
   // parses through inputted item list and turns it into an object
   // containing:
@@ -84,7 +81,6 @@ export default function FinalizedBill({ navigation, route }) {
     let totals = [];
 
     finalBill.payer = payer;
-
 
     //copy over bill items to the final bill.
     const billItems = list.map((item) => {
@@ -159,14 +155,45 @@ export default function FinalizedBill({ navigation, route }) {
       ],
     );
   };
+  const currencyConverter = (number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(number);
+  };
+  // console.log('THIS IS BILL', bill);
+  // console.log('THIS IS BILLITEMS', bill.billItems);
+
+  // const styles = StyleSheet.create({
+  //   body: {
+  //     backgroundColor: 'white',
+  //     flex: 1,
+  //   },
+  //   listWrapper: {
+  //     flexDirection: 'row',
+  //     flexWrap: 'wrap',
+  //     borderBottomWidth: 5,
+  //   },
+  //   row: {
+  //     backgroundColor: 'white',
+  //     flex: 1,
+  //     fontSize: 14,
+  //     paddingHorizontal: 2,
+  //     paddingVertical: 30,
+  //   },
+  // });
   return (
     <Center w="100%">
       <Box maxW="350" w="100%">
         <Center w="100%">
           <Heading m="10" size="xl">
-            {`Your Final Bill: ${billName}`}
+            <Text style={{ textDecorationLine: 'underline' }}>
+              {`Your Final Bill: ${billName}`}
+            </Text>
           </Heading>
         </Center>
+
         <VStack space={2}>
           {bill.billItems.map((item, index) => (
             <HStack key={index} w="100%" justifyContent="center">
@@ -174,7 +201,9 @@ export default function FinalizedBill({ navigation, route }) {
                 <Text mx="2">{item.name}</Text>
               </HStack>
               <HStack w="20%" justifyContent="center">
-                <Text mx="2">{item.price}</Text>
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(item.price)}
+                </Text>
               </HStack>
               <HStack w="20%" justifyContent="flex-end" space={2}>
                 <Text mx="2">{item.assignee}</Text>
@@ -184,7 +213,9 @@ export default function FinalizedBill({ navigation, route }) {
         </VStack>
         <Center w="100%">
           <Heading m="10" size="xl">
-            Totals By Person
+            <Text style={{ textDecorationLine: 'underline' }}>
+              Totals per Person!
+            </Text>
           </Heading>
         </Center>
         <VStack space={2}>
@@ -199,7 +230,9 @@ export default function FinalizedBill({ navigation, route }) {
                 </Text>
               </HStack>
               <HStack w="45%" justifyContent="flex-end" space={2}>
-                <Text mx="2">{total.total}</Text>
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(total.total)}
+                </Text>
               </HStack>
             </HStack>
           ))}
