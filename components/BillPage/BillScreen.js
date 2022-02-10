@@ -52,7 +52,7 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 
 	// const [list, setList] = useState(instState);
 
-	const [list, setList] = useState(OCRData);
+	const [list, setList] = useState(OCRData ? OCRData : []);
 	const [user, setUser] = useState("");
 	const [itemName, setItemName] = useState("");
 	const [itemPrice, setItemPrice] = useState("");
