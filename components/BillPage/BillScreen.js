@@ -31,7 +31,7 @@ import UserModal from "./UserModal";
 import UsersList from "./UsersList";
 import FinalizedBill from "../FinalizedBill";
 
-const BillScreen = ({ userList, navigation, billName, payer }) => {
+const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 	const instState = [
 		{
 			name: "Cheeseburger",
@@ -52,7 +52,7 @@ const BillScreen = ({ userList, navigation, billName, payer }) => {
 
 	// const [list, setList] = useState(instState);
 
-	const [list, setList] = useState([]);
+	const [list, setList] = useState(OCRData);
 	const [user, setUser] = useState("");
 	const [itemName, setItemName] = useState("");
 	const [itemPrice, setItemPrice] = useState("");
@@ -217,8 +217,7 @@ const BillScreen = ({ userList, navigation, billName, payer }) => {
 };
 export default ({ navigation, route }) => {
 	console.log("👋 ocr data ------>", route?.params?.OCRData);
-	console.log("👋 payer ------>", route?.params?.payer);
-	console.log("👋 bill name ------>", route?.params?.billName);
+
 	const [userList, setUserList] = useState([route?.params?.payer]);
 	return (
 		<NativeBaseProvider>
@@ -228,6 +227,7 @@ export default ({ navigation, route }) => {
 					navigation={navigation}
 					payer={route?.params?.payer}
 					billName={route?.params?.billName}
+					OCRData={route?.params?.OCRData}
 				/>
 			</Center>
 			<UserModal setUserList={setUserList} userList={userList} />

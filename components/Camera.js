@@ -23,7 +23,7 @@ export default function App({ navigation, route }) {
 		})();
 	}, []);
 
-	const submitToGoogle = async (capturedImage) => {
+	const fetchOCRData = async (capturedImage) => {
 		setIsLoading(true);
 		try {
 			const fetchData = async () => {
@@ -32,11 +32,12 @@ export default function App({ navigation, route }) {
 				data.append("base64Image", base64Str);
 				data.append("isTable", true);
 				data.append("scale", true);
+				data.append("OCREngine", 2);
 
 				const headers = {
 					Accept: "application/json",
 					"Content-Type": "multipart/form-data;",
-					apiKey: "K81848835288957",
+					apiKey: "K87273936188957",
 				};
 				const config = {
 					method: "POST",
@@ -47,15 +48,26 @@ export default function App({ navigation, route }) {
 				const ocr = await fetch(URL, config);
 				return ocr.json();
 			};
-
-			const OCRData = await fetchData();
+			const ocr = await fetchData();
 			setIsLoading(false);
-			console.log("👋 OCRDATA raw ------>", OCRData);
-			console.log("👋 Is Error Processing from ocr space fetch ------>", OCRData.IsErroredOnProcessing);
-			console.log("👋 Error Message from ocr space fetch ------>", OCRData.ErrorMessage);
-			const ocrSpace = OCRData?.ParsedResults[0]?.ParsedText;
+			console.log("👋 Is Error Processing from ocr space fetch ------>", ocr.IsErroredOnProcessing);
+			console.log("👋 Error Message from ocr space fetch ------>", ocr.ErrorMessage);
 
-			navigation.navigate("BillScreen", { OCRData: OCRData?.ParsedResults[0]?.ParsedText, payer, billName });
+			const refineData = (data) => {
+				let text = data?.ParsedResults[0]?.ParsedText.split(/\r?\n/);
+				let arr = [];
+				for (let i = 5; i < 9; i++) {
+					const line = text[i].split("$");
+					const name = line[0].slice(2);
+					const price = line[1];
+					const item = { name, price, assignee: null };
+					arr.push(item);
+				}
+				return arr;
+			};
+			let OCRData = refineData(ocr);
+
+			navigation.navigate("BillScreen", { OCRData, payer, billName });
 		} catch (error) {
 			console.log("error from submit to google ------>", error);
 		}
@@ -106,7 +118,7 @@ export default function App({ navigation, route }) {
 		return (
 			<Flex flex={1} alignItems="center">
 				<Image size={450} resizeMode="contain" alt="image" source={{ uri: `data:image/png;base64, ${image}` }} m={10} />
-				<Button alignItems="center" w={48} p={3} onPress={() => submitToGoogle(image)}>
+				<Button alignItems="center" w={48} p={3} onPress={() => fetchOCRData(image)}>
 					<Text color="black" fontSize="xl">
 						Next
 					</Text>
