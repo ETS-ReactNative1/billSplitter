@@ -1,26 +1,21 @@
 import React, { useState } from "react";
 import {
 	Input,
-	FlatList,
 	IconButton,
-	Checkbox,
 	Text,
-	Avatar,
 	Box,
 	VStack,
 	HStack,
 	Heading,
-	Spacer,
-	FormControl,
-	Modal,
 	Icon,
-	Flex,
 	Center,
 	NativeBaseProvider,
 	ScrollView,
 	Select,
 	CheckIcon,
 	Button,
+	Divider,
+	Container,
 } from "native-base";
 
 import { Alert } from "react-native";
@@ -32,7 +27,7 @@ import Tips from "./Tips";
 import UsersList from "./UsersList";
 import FinalizedBill from "../FinalizedBill";
 
-const BillScreen = ({ userList, navigation, billName, payer, OCRData, tips }) => {
+const BillScreen = ({ userList, navigation, billName, payer, OCRData, tip }) => {
 	const instState = [
 		{
 			name: "Cheeseburger",
@@ -109,7 +104,7 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData, tips }) =>
 			}
 		}
 		console.log("Everything is assigned");
-		navigation.navigate("FinalizedBill", { billName, payer, list, tips });
+		navigation.navigate("FinalizedBill", { billName, payer, list, tip });
 	};
 
 	const openAssignAlert = () => {
@@ -224,7 +219,7 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData, tips }) =>
 };
 export default ({ navigation, route }) => {
 	const [userList, setUserList] = useState([route?.params?.payer]);
-	const [tips, setTips] = useState(0);
+	const [tips, setTips] = useState(15);
 
 	return (
 		<NativeBaseProvider>
@@ -235,11 +230,14 @@ export default ({ navigation, route }) => {
 					payer={route?.params?.payer}
 					billName={route?.params?.billName}
 					OCRData={route?.params?.OCRData}
-					tips={tips}
+					tip={tips}
 				/>
 			</Center>
-			<Tips setTips={setTips} tips={tips} />
-			<UserModal setUserList={setUserList} userList={userList} />
+			<Divider backgroundColor="trueGray.300" />
+			<Box backgroundColor="trueGray.200">
+				<Tips setTips={setTips} tips={tips} />
+				<UserModal setUserList={setUserList} userList={userList} />
+			</Box>
 		</NativeBaseProvider>
 	);
 };
