@@ -55,7 +55,7 @@ export default function FinalizedBill({ navigation, route }) {
       if (!party.includes(item.assignee)) {
         party.push(item.assignee);
       }
-      finalBill.subtotal += item.price;
+      finalBill.subtotal += parseInt(item.price);
       return item;
     });
     finalBill.billItems = billItems;
@@ -94,6 +94,7 @@ export default function FinalizedBill({ navigation, route }) {
     finalBill.totals.forEach((personTotal) => {
       personTotal.total = personTotal.total * (1 + tax) * (1 + tip);
     });
+    console.log("final bill, ", finalBill)
     return finalBill;
   };
 
@@ -102,7 +103,7 @@ export default function FinalizedBill({ navigation, route }) {
   const [bill, setBill] = React.useState(finalBill);
 
   const billIsFinal = () => {
-    console.log('billisFinal has been clicked!!!');
+    // console.log('billisFinal has been clicked!!!');
     finalizeAlert();
   };
 
@@ -188,25 +189,64 @@ export default function FinalizedBill({ navigation, route }) {
             </HStack>
           ))}
           {/* Subtotal */}
-          <HStack key={index} w="100%" justifyContent="center">
+          <HStack w="100%" justifyContent="center">
               <HStack w="50%" justifyContent="flex-start">
-                <Text mx="2">{item.name}</Text>
+                <Text mx="2">Subtotal</Text>
               </HStack>
               <HStack w="20%" justifyContent="center">
                 <Text mx="2" style={{ fontWeight: 'bold' }}>
-                  {currencyConverter(item.price)}
+                  {currencyConverter(finalBill.subtotal)}
                 </Text>
               </HStack>
               <HStack w="20%" justifyContent="flex-end" space={2}>
-                <Text mx="2">{item.assignee}</Text>
+                <Text mx="2"></Text>
               </HStack>
             </HStack>
 
             {/* Tax */}
+            <HStack w="100%" justifyContent="center">
+              <HStack w="50%" justifyContent="flex-start">
+                <Text mx="2">Tax</Text>
+              </HStack>
+              <HStack w="20%" justifyContent="center">
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(finalBill.tax)}
+                </Text>
+              </HStack>
+              <HStack w="20%" justifyContent="flex-end" space={2}>
+                <Text mx="2"></Text>
+              </HStack>
+            </HStack>
 
             {/* Tip */}
+            <HStack w="100%" justifyContent="center">
+              <HStack w="50%" justifyContent="flex-start">
+                <Text mx="2">Tip</Text>
+              </HStack>
+              <HStack w="20%" justifyContent="center">
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(finalBill.tip)}
+                </Text>
+              </HStack>
+              <HStack w="20%" justifyContent="flex-end" space={2}>
+                <Text mx="2"></Text>
+              </HStack>
+            </HStack>
 
             {/* Grand Total */}
+            <HStack w="100%" justifyContent="center">
+              <HStack w="50%" justifyContent="flex-start">
+                <Text mx="2">Grand Total</Text>
+              </HStack>
+              <HStack w="20%" justifyContent="center">
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(finalBill.grandTotal)}
+                </Text>
+              </HStack>
+              <HStack w="20%" justifyContent="flex-end" space={2}>
+                <Text mx="2"></Text>
+              </HStack>
+            </HStack>
 
 
 
