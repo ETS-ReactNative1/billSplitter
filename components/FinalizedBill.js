@@ -25,76 +25,52 @@ import { Alert, View, StyleSheet } from 'react-native';
 import TextMessage from './TextMessage';
 
 export default function FinalizedBill({ navigation, route }) {
+
+  //grab data passed from previous screens.
   const billName = route.params.billName;
   const payer = route.params.payer;
   const billItems = route.params.list;
+  const tip = route.params.tip ? route.params.tip/100 : .015;
+  const tax = route.params.tax ? route.params.tip/100 : .0875;
   console.log('billnamemeeee ', billName);
 
-  // dummy data for what should be in state when this component loads.
-  const dummyList = [
-    {
-      title: 'Cheeseburger',
-      price: 10.0,
-      assignee: 'Johan',
-      payer: false,
-    },
-    {
-      title: 'Beer',
-      price: 8.0,
-      assignee: 'Lane',
-      payer: false,
-    },
-    {
-      title: 'Fries',
-      price: 9.0,
-      assignee: 'Justin',
-      payer: false,
-    },
-    {
-      title: 'Cheeseburger',
-      price: 10.0,
-      assignee: 'Marco',
-      payer: true,
-    },
-    {
-      title: 'Beer',
-      price: 8.0,
-      assignee: 'Marco',
-      payer: true,
-    },
-    {
-      title: 'Fries',
-      price: 9.0,
-      assignee: 'Justin',
-      payer: false,
-    },
-  ];
-
-  // parses through inputted item list and turns it into an object
-  // containing:
-  // finalBill.payer: string of payer's name.
-  //, finalBill.billItems: array of objects (name, price, assignee, payer)
-  // finalBill.totals: array of objects (assignee, total, payer(T/F)
+  // parses through inputted item list and turns it into an object containing:
+  // 1. finalBill.payer: string of payer's name.
+  // 2. finalBill.billItems: array of objects (name, price, assignee, payer)
+  // 3. finalBill.totals: array of objects (assignee, total, payer(T/F)
+  // 4. finalBIll.billParty: array of unique members of the dining party.
   const finalizeBill = (list) => {
     let finalBill = {};
     let party = [];
     let totals = [];
 
+    // add the payer, passed from the AddBill.js screen.
     finalBill.payer = payer;
+    finalBill.subtotal = 0;
 
-    //copy over bill items to the final bill.
+    //copy over bill items passed from BillScreen.js.
+    //build the bill total along the way.
     const billItems = list.map((item) => {
       //build the party of unique members.
       if (!party.includes(item.assignee)) {
         party.push(item.assignee);
       }
-
+      finalBill.subtotal += parseInt(item.price);
       return item;
     });
     finalBill.billItems = billItems;
     finalBill.party = party;
 
-    //add up per-person sub totals
+    //calculate tip for the bill
+    finalBill.tip = tip * finalBill.subtotal;
+
+    //calculate tax for the bill:
+    finalBill.tax = tax * finalBill.subtotal;
+
+    //calculate bill grand total:
+    finalBill.grandTotal = finalBill.subtotal + finalBill.tax + finalBill.tip;
+
+    //tabulate up per-person sub totals
     party.forEach((person) => {
       let personTotal = 0;
       list.forEach((item) => {
@@ -114,22 +90,20 @@ export default function FinalizedBill({ navigation, route }) {
     });
     finalBill.totals = totals;
 
-    // apply tip and tax.
-    // hardcoded to be .0875% tax and 15% tip.
-    // also not great at handling floating point math.
+    // apply tip and tax to each person's item total.
     finalBill.totals.forEach((personTotal) => {
-      personTotal.total = personTotal.total * 1.0875 * 1.15;
+      personTotal.total = personTotal.total * (1 + tax) * (1 + tip);
     });
-    // console.log("Final Bill: ", finalBill);
+    console.log("final bill, ", finalBill)
     return finalBill;
   };
 
   const finalBill = finalizeBill(billItems);
 
-  const [bill, setBil] = React.useState(finalBill);
+  const [bill, setBill] = React.useState(finalBill);
 
   const billIsFinal = () => {
-    console.log('billisFinal has been clicked!!!');
+    // console.log('billisFinal has been clicked!!!');
     finalizeAlert();
   };
 
@@ -185,15 +159,19 @@ export default function FinalizedBill({ navigation, route }) {
   // });
   return (
     <Center w="100%">
-      <Box maxW="350" w="100%">
+      <Box maxW="400" w="100%">
+
+        {/* Header containing bill name */}
         <Center w="100%">
           <Heading m="10" size="xl">
-            <Text style={{ textDecorationLine: 'underline' }}>
-              {`Your Final Bill: ${billName}`}
+            <Text >
+              Bill Name: {"\n"}
+              {billName}
             </Text>
           </Heading>
         </Center>
 
+        {/* Bill by Item */}
         <VStack space={2}>
           {bill.billItems.map((item, index) => (
             <HStack key={index} w="100%" justifyContent="center">
@@ -210,14 +188,82 @@ export default function FinalizedBill({ navigation, route }) {
               </HStack>
             </HStack>
           ))}
+          {/* Subtotal */}
+          <HStack w="100%" justifyContent="center">
+              <HStack w="50%" justifyContent="flex-start">
+                <Text mx="2">Subtotal</Text>
+              </HStack>
+              <HStack w="20%" justifyContent="center">
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(finalBill.subtotal)}
+                </Text>
+              </HStack>
+              <HStack w="20%" justifyContent="flex-end" space={2}>
+                <Text mx="2"></Text>
+              </HStack>
+            </HStack>
+
+            {/* Tax */}
+            <HStack w="100%" justifyContent="center">
+              <HStack w="50%" justifyContent="flex-start">
+                <Text mx="2">Tax</Text>
+              </HStack>
+              <HStack w="20%" justifyContent="center">
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(finalBill.tax)}
+                </Text>
+              </HStack>
+              <HStack w="20%" justifyContent="flex-end" space={2}>
+                <Text mx="2"></Text>
+              </HStack>
+            </HStack>
+
+            {/* Tip */}
+            <HStack w="100%" justifyContent="center">
+              <HStack w="50%" justifyContent="flex-start">
+                <Text mx="2">Tip</Text>
+              </HStack>
+              <HStack w="20%" justifyContent="center">
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(finalBill.tip)}
+                </Text>
+              </HStack>
+              <HStack w="20%" justifyContent="flex-end" space={2}>
+                <Text mx="2"></Text>
+              </HStack>
+            </HStack>
+
+            {/* Grand Total */}
+            <HStack w="100%" justifyContent="center">
+              <HStack w="50%" justifyContent="flex-start">
+                <Text mx="2">Grand Total</Text>
+              </HStack>
+              <HStack w="20%" justifyContent="center">
+                <Text mx="2" style={{ fontWeight: 'bold' }}>
+                  {currencyConverter(finalBill.grandTotal)}
+                </Text>
+              </HStack>
+              <HStack w="20%" justifyContent="flex-end" space={2}>
+                <Text mx="2"></Text>
+              </HStack>
+            </HStack>
+
+
+
+
+
         </VStack>
+
+        {/* Header for "per person" totals */}
         <Center w="100%">
           <Heading m="10" size="xl">
-            <Text style={{ textDecorationLine: 'underline' }}>
-              Totals per Person!
+            <Text>
+              Totals per Person
             </Text>
           </Heading>
         </Center>
+
+        {/* Per person totals */}
         <VStack space={2}>
           {bill.totals.map((total, index) => (
             <HStack key={index} w="100%" justifyContent="center">
@@ -237,14 +283,18 @@ export default function FinalizedBill({ navigation, route }) {
             </HStack>
           ))}
         </VStack>
-        <Button
+
+
+        {/* <Button
           colorScheme="green"
           shadow={2}
           style={{ borderRadius: 0 }}
           onPress={() => billIsFinal()}
         >
           Finalize Bill!
-        </Button>
+        </Button> */}
+
+
       </Box>
     </Center>
   );
