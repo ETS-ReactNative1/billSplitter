@@ -1,26 +1,21 @@
 import React, { useState } from "react";
 import {
 	Input,
-	FlatList,
 	IconButton,
-	Checkbox,
 	Text,
-	Avatar,
 	Box,
 	VStack,
 	HStack,
 	Heading,
-	Spacer,
-	FormControl,
-	Modal,
 	Icon,
-	Flex,
 	Center,
 	NativeBaseProvider,
 	ScrollView,
 	Select,
 	CheckIcon,
 	Button,
+	Divider,
+	Container,
 } from "native-base";
 
 import { Alert } from "react-native";
@@ -28,10 +23,11 @@ import { Alert } from "react-native";
 import { Feather, Entypo, FontAwesome, SimpleLineIcons, AntDesign } from "@expo/vector-icons";
 
 import UserModal from "./UserModal";
+import Tips from "./Tips";
 import UsersList from "./UsersList";
 import FinalizedBill from "../FinalizedBill";
 
-const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
+const BillScreen = ({ userList, navigation, billName, payer, OCRData, tip }) => {
 	const instState = [
 		{
 			name: "Cheeseburger",
@@ -108,7 +104,7 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 			}
 		}
 		console.log("Everything is assigned");
-		navigation.navigate("FinalizedBill", { billName, payer, list });
+		navigation.navigate("FinalizedBill", { billName, payer, list, tip });
 	};
 
 	const openAssignAlert = () => {
@@ -173,11 +169,14 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 									<HStack w="50%" justifyContent="flex-start">
 										<IconButton
 											size="sm"
+											alignSelf="center"
 											colorScheme="trueGray"
-											icon={<Icon as={FontAwesome} name="trash-o" size="xs" color="trueGray.400" />}
+											icon={<Icon as={FontAwesome} name="trash-o" size="xs" color="red.500" />}
 											onPress={() => handleTrashCan(itemI)}
 										/>
-										<Text mx="2">{item.name}</Text>
+										<Text mx="2" alignSelf="center" fontSize="md">
+											{item.name}
+										</Text>
 									</HStack>
 									<HStack w="50%" justifyContent="flex-end" space={2}>
 										<Select
@@ -191,6 +190,7 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 												endIcon: <CheckIcon size={4} />,
 											}}
 											dropdownIcon={<Icon as={AntDesign} name="down" size={3} color="black" pr={4} />}
+											alignSelf="center"
 										>
 											{userList.map((singlePerson, i) => (
 												<Select.Item
@@ -200,12 +200,14 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 												/>
 											))}
 										</Select>
-										<Text style={{ fontWeight: "bold" }}>{"$" + String(item.price)}</Text>
+										<Text fontSize="md" alignSelf="center" style={{ fontWeight: "bold" }}>
+											{"$" + String(item.price)}
+										</Text>
 									</HStack>
 								</HStack>
 							))}
 
-							<Button colorScheme="green" shadow={2} style={{ borderRadius: 0 }} onPress={() => next()}>
+							<Button colorScheme="green" shadow={2} _text={{ fontSize: "md" }} onPress={() => next()}>
 								Next
 							</Button>
 						</VStack>
@@ -216,21 +218,26 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 	);
 };
 export default ({ navigation, route }) => {
-	console.log("👋 ocr data ------>", route?.params?.OCRData);
-
 	const [userList, setUserList] = useState([route?.params?.payer]);
+	const [tips, setTips] = useState(15);
+
 	return (
 		<NativeBaseProvider>
-			<Center flex={1} px="3" pb="250">
+			<Center flex={1} px="3" pb="300">
 				<BillScreen
 					userList={userList}
 					navigation={navigation}
 					payer={route?.params?.payer}
 					billName={route?.params?.billName}
 					OCRData={route?.params?.OCRData}
+					tip={tips}
 				/>
 			</Center>
-			<UserModal setUserList={setUserList} userList={userList} />
+			<Divider backgroundColor="trueGray.300" />
+			<Box backgroundColor="trueGray.200">
+				<Tips setTips={setTips} tips={tips} />
+				<UserModal setUserList={setUserList} userList={userList} />
+			</Box>
 		</NativeBaseProvider>
 	);
 };
