@@ -11,9 +11,8 @@ function Tips({ setTips, tips }) {
 			<Button
 				w={60}
 				p="1"
-				variant="outline"
 				borderWidth={2}
-				backgroundColor={tips === 15 ? "success.600" : null}
+				backgroundColor={tips === 15 ? "success.600" : "transparent"}
 				borderColor="success.600"
 				_text={{ fontSize: "md", color: tips === 15 ? "white" : "success.600", fontWeight: "bold" }}
 				m="2"
@@ -24,9 +23,8 @@ function Tips({ setTips, tips }) {
 			<Button
 				w={60}
 				p="1"
-				variant="outline"
 				borderWidth={2}
-				backgroundColor={tips === 18 ? "success.600" : null}
+				backgroundColor={tips === 18 ? "success.600" : "transparent"}
 				borderColor="success.600"
 				_text={{ fontSize: "md", color: tips === 18 ? "white" : "success.600", fontWeight: "bold" }}
 				m="2"
@@ -37,9 +35,8 @@ function Tips({ setTips, tips }) {
 			<Button
 				w={60}
 				p="1"
-				variant="outline"
 				borderWidth={2}
-				backgroundColor={tips === 20 ? "success.600" : null}
+				backgroundColor={tips === 20 ? "success.600" : "transparent"}
 				borderColor="success.600"
 				_text={{ fontSize: "md", color: tips === 20 ? "white" : "success.600", fontWeight: "bold" }}
 				m="2"
@@ -50,9 +47,8 @@ function Tips({ setTips, tips }) {
 			<Button
 				w={60}
 				p="1"
-				variant="outline"
 				borderWidth={2}
-				backgroundColor={tips === 30 ? "success.600" : null}
+				backgroundColor={tips === 30 ? "success.600" : "transparent"}
 				borderColor="success.600"
 				_text={{ fontSize: "md", color: tips === 30 ? "white" : "success.600", fontWeight: "bold" }}
 				m="2"
