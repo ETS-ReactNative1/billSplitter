@@ -87,7 +87,7 @@ export default function FinalizedBill({ navigation, route }) {
 
 		// apply tip and tax to each person's item total.
 		finalBill.totals.forEach((personTotal) => {
-			personTotal.total = personTotal.total * (1 + tax) * (1 + tip);
+			personTotal.total = (personTotal.total / finalBill.subtotal) * finalBill.grandTotal;
 		});
 		console.log("final bill, ", finalBill);
 		return finalBill;
