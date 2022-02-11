@@ -28,10 +28,11 @@ import { Alert } from "react-native";
 import { Feather, Entypo, FontAwesome, SimpleLineIcons, AntDesign } from "@expo/vector-icons";
 
 import UserModal from "./UserModal";
+import Tips from "./Tips";
 import UsersList from "./UsersList";
 import FinalizedBill from "../FinalizedBill";
 
-const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
+const BillScreen = ({ userList, navigation, billName, payer, OCRData, tips }) => {
 	const instState = [
 		{
 			name: "Cheeseburger",
@@ -108,7 +109,7 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 			}
 		}
 		console.log("Everything is assigned");
-		navigation.navigate("FinalizedBill", { billName, payer, list });
+		navigation.navigate("FinalizedBill", { billName, payer, list, tips });
 	};
 
 	const openAssignAlert = () => {
@@ -222,9 +223,9 @@ const BillScreen = ({ userList, navigation, billName, payer, OCRData }) => {
 	);
 };
 export default ({ navigation, route }) => {
-	console.log("👋 ocr data ------>", route?.params?.OCRData);
-
 	const [userList, setUserList] = useState([route?.params?.payer]);
+	const [tips, setTips] = useState(0);
+
 	return (
 		<NativeBaseProvider>
 			<Center flex={1} px="3" pb="300">
@@ -234,8 +235,10 @@ export default ({ navigation, route }) => {
 					payer={route?.params?.payer}
 					billName={route?.params?.billName}
 					OCRData={route?.params?.OCRData}
+					tips={tips}
 				/>
 			</Center>
+			<Tips setTips={setTips} tips={tips} />
 			<UserModal setUserList={setUserList} userList={userList} />
 		</NativeBaseProvider>
 	);
