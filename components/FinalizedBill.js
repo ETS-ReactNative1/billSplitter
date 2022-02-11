@@ -26,7 +26,7 @@ export default function FinalizedBill({ navigation, route }) {
 	const payer = route.params.payer;
 	const billItems = route.params.list;
 	const tip = route.params.tip ? route.params.tip / 100 : 0.015;
-	const tax = route.params.tax ? route.params.tip / 100 : 0.0875;
+	const tax = route.params.tax ? route.params.tip / 100 : 0.08875;
 	console.log("billnamemeeee ", billName);
 
 	// parses through inputted item list and turns it into an object containing:
@@ -168,7 +168,7 @@ export default function FinalizedBill({ navigation, route }) {
 							<HStack w="50%" justifyContent="flex-start">
 								<Text mx="2">{item.name}</Text>
 							</HStack>
-							<HStack w="20%" justifyContent="center">
+							<HStack w="20%">
 								<Text mx="2" style={{ fontWeight: "bold" }}>
 									{currencyConverter(item.price)}
 								</Text>
@@ -184,7 +184,7 @@ export default function FinalizedBill({ navigation, route }) {
 						<HStack w="50%" justifyContent="flex-start">
 							<Text mx="2">Subtotal</Text>
 						</HStack>
-						<HStack w="20%" justifyContent="center">
+						<HStack w="20%">
 							<Text mx="2" style={{ fontWeight: "bold" }}>
 								{currencyConverter(finalBill.subtotal)}
 							</Text>
@@ -199,7 +199,7 @@ export default function FinalizedBill({ navigation, route }) {
 						<HStack w="50%" justifyContent="flex-start">
 							<Text mx="2">Tax</Text>
 						</HStack>
-						<HStack w="20%" justifyContent="center">
+						<HStack w="20%">
 							<Text mx="2" style={{ fontWeight: "bold" }}>
 								{currencyConverter(finalBill.tax)}
 							</Text>
@@ -214,9 +214,9 @@ export default function FinalizedBill({ navigation, route }) {
 						<HStack w="50%" justifyContent="flex-start">
 							<Text mx="2">Tip</Text>
 						</HStack>
-						<HStack w="20%" justifyContent="center">
+						<HStack w="20%">
 							<Text mx="2" style={{ fontWeight: "bold" }}>
-								{currencyConverter(finalBill.tip)}
+								{`${currencyConverter(finalBill.tip)} (${tip * 100}%)`}
 							</Text>
 						</HStack>
 						<HStack w="20%" justifyContent="flex-end" space={2}>
@@ -229,7 +229,7 @@ export default function FinalizedBill({ navigation, route }) {
 						<HStack w="50%" justifyContent="flex-start">
 							<Text mx="2">Grand Total</Text>
 						</HStack>
-						<HStack w="20%" justifyContent="center">
+						<HStack w="20%">
 							<Text mx="2" style={{ fontWeight: "bold" }}>
 								{currencyConverter(finalBill.grandTotal)}
 							</Text>
