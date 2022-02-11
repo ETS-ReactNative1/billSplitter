@@ -162,27 +162,7 @@ export default function FinalizedBill({ navigation, route }) {
       minimumFractionDigits: 2,
     }).format(number);
   };
-  // console.log('THIS IS BILL', bill);
-  // console.log('THIS IS BILLITEMS', bill.billItems);
 
-  // const styles = StyleSheet.create({
-  //   body: {
-  //     backgroundColor: 'white',
-  //     flex: 1,
-  //   },
-  //   listWrapper: {
-  //     flexDirection: 'row',
-  //     flexWrap: 'wrap',
-  //     borderBottomWidth: 5,
-  //   },
-  //   row: {
-  //     backgroundColor: 'white',
-  //     flex: 1,
-  //     fontSize: 14,
-  //     paddingHorizontal: 2,
-  //     paddingVertical: 30,
-  //   },
-  // });
   return (
     <Center w="100%">
       <Box maxW="350" w="100%">
