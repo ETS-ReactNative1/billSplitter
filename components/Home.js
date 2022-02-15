@@ -1,23 +1,22 @@
-import { Box, Button, Heading } from 'native-base';
-import { Alert } from 'react-native';
+import { Box, Button, Container, Flex, Heading, Image, Pressable, Text } from "native-base";
+import { Alert } from "react-native";
+import icon from "../assets/Billsplitter_icon.png";
 
 export default function Home({ navigation }) {
-  return (
-    <Box
-      flex={1}
-      bg="#fff"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Heading>Bill Splitter</Heading>
+	return (
+		<Flex flex={1} flexDirection="column" justifyContent="center" pb="32">
+			<Box alignSelf="center">
+				<Text pt={10} fontSize="2xl">
+					Bill Splitter
+				</Text>
+				<Image alignSelf="center" justifyContent="flex-start" borderRadius="10" size="100" source={icon} alt="icon" />
+			</Box>
 
-      <Button
-        variant="link"
-        size="lg"
-        onPress={() => navigation.navigate('CreateBill')}
-      >
-        Create New Bill
-      </Button>
-    </Box>
-  );
+			<Pressable onPress={() => navigation.navigate("CreateBill")}>
+				<Text underline pt={20} alignSelf="center" fontSize="5xl">
+					Create New Bill
+				</Text>
+			</Pressable>
+		</Flex>
+	);
 }
