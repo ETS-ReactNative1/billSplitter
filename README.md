@@ -1,3 +1,1 @@
-# ReactNative
-This is a proof of concept for BillSplitter app.
-  - expo react native
+BillSplitter is a mobile application that allows a restaurant bill to be split between a group of friends. The user can take a picture of their receipt or manually add/edit/delete items. Items can be assigned to specific group members, then all members are instructed how much to pay. Developed with React Native, Expo, Native Base, Firestore, Google Cloud Vision API, and OCR space.
